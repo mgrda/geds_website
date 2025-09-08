@@ -1,17 +1,16 @@
 {
-    "name": "Ynnothivix",
-    "short_name": "Ynnothivix",
-    "start_url": "/",
-    "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#facc15",
-    "orientation": "portrait",
-    "icons": [
-      {
-        "src": "/ynnothivix.png",
-        "sizes": "512x512",
-        "type": "image/png"
-      }
-    ]
-  }
-  
+  "name": "GEDS Inovação",
+  "short_name": "GEDS Inovação",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0066cc",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/GEDS Inovação.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

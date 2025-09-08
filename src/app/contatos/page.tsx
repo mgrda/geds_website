@@ -54,7 +54,7 @@ const Contact = () => {
             </span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Entre em contato com a <span className="text-blue-400 font-semibold">Ynnothivix</span> e vamos transformar suas ideias em realidade digital.
+            Entre em contato com a <span className="text-blue-400 font-semibold">GEDS Inovação</span> e vamos transformar suas ideias em realidade digital.
           </p>
         </motion.div>
 
@@ -173,7 +173,7 @@ const Contact = () => {
                       <div className="bg-blue-500/20 p-2 rounded-lg group-hover:bg-blue-500/30 transition">
                         <FaEnvelope className="text-blue-400 text-xl" />
                       </div>
-                      contato@ynnothivix.com.br
+                      contato@gedsinovacao.com
                     </a>
                     <p className="mt-3 text-gray-400">
                       Respondemos em até 24 horas durante dias úteis.
@@ -195,7 +195,7 @@ const Contact = () => {
                       <div className="bg-green-500/20 p-2 rounded-lg group-hover:bg-green-500/30 transition">
                         <FaWhatsapp className="text-green-400 text-xl" />
                       </div>
-                      (98) 98765-4321
+                      (98) 99999-9999
                     </a>
                     <p className="mt-3 text-gray-400">
                       Atendimento rápido via WhatsApp.

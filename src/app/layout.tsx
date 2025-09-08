@@ -6,17 +6,17 @@ import Libras from "@/app/components/Libras"; // Importa o componente Libras
 import "./globals.css";
 
 export const metadata = {
-  title: "Ynnothivix",
+  title: "GEDS Inovação",
   description: "Soluções de tecnologia sob medida para o seu negócio.",
   icons: {
-    icon: "/ynnothivix.png", // ícone padrão
-    apple: "/ynnothivix.png", // ícone para iOS
+    icon: "/GEDS Inovação.png", // ícone padrão
+    apple: "/GEDS Inovação.png", // ícone para iOS
   },
   manifest: "/manifest.json",
   themeColor: "#facc15",
   appleWebApp: {
     capable: true,
-    title: "Ynnothivix",
+    title: "GEDS Inovação",
   },
 };
 
