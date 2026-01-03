@@ -5,160 +5,130 @@ import { FiAward, FiCode, FiTrendingUp, FiUsers, FiGlobe, FiHeart } from "react-
 
 export default function About() {
   return (
-    <section id="about" className="py-20 px-4 bg-gradient-to-b from-gray-50 to-white">
+    <section id="about" className="py-20 px-4 bg-black">
       <div className="max-w-6xl mx-auto">
         {/* Cabeçalho */}
-        <motion.div 
+        <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <span className="inline-block mb-4 text-blue-600 font-medium bg-blue-50 px-4 py-2 rounded-full text-sm uppercase tracking-wider">
+          <span className="inline-block mb-4 text-cyan font-bold bg-cyan/10 px-4 py-2 rounded-full text-xs uppercase tracking-widest border border-cyan/20">
             Quem Somos
           </span>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Inovação com <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600">Propósito</span>
+          <h1 className="text-4xl md:text-6xl font-black text-white mb-6">
+            Inovação com <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan to-white drop-shadow-[0_0_10px_rgba(0,219,255,0.3)]">Propósito</span>
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Transformamos ideias em soluções digitais que impulsionam negócios
+          <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
+            Transformamos ideias em soluções digitais que impulsionam negócios através de tecnologia disruptiva.
           </p>
         </motion.div>
 
         {/* Conteúdo Principal */}
-        <div className="flex flex-col lg:flex-row items-center gap-12">
+        <div className="flex flex-col lg:flex-row items-center gap-16">
           {/* Imagem - Tamanho ajustado */}
-          <motion.div 
+          <motion.div
             className="lg:w-1/2 relative"
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <div className="relative">
+            <div className="relative group">
               <img
                 src="/GEDS inovação.jpeg"
                 alt="Equipe GEDS Inovação"
-                className="w-full h-[400px] object-cover rounded-2xl shadow-xl border-4 border-white"
+                className="w-full h-[500px] object-cover rounded-2xl shadow-2xl border border-white/10 group-hover:border-cyan/30 transition-all duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent rounded-2xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent rounded-2xl"></div>
+              <div className="absolute inset-0 bg-cyan/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"></div>
             </div>
-            
-            <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-xl shadow-lg border border-gray-100">
-              <div className="flex items-center gap-2">
-                <div className="bg-blue-100 p-2 rounded-full">
-                  <FiAward className="text-blue-600 text-xl" />
+
+            <div className="absolute -bottom-6 -right-6 bg-black/80 backdrop-blur-xl p-5 rounded-2xl shadow-2xl border border-cyan/30">
+              <div className="flex items-center gap-3">
+                <div className="bg-cyan/20 p-3 rounded-full">
+                  <FiAward className="text-cyan text-2xl" />
                 </div>
-                <span className="font-semibold text-gray-800">+50 Projetos</span>
+                <div>
+                  <p className="text-2xl font-black text-white">+50</p>
+                  <p className="text-[10px] text-cyan uppercase tracking-widest font-bold">Projetos Entregues</p>
+                </div>
               </div>
             </div>
           </motion.div>
 
           {/* Texto */}
-          <motion.div 
-            className="lg:w-1/2 space-y-8"
+          <motion.div
+            className="lg:w-1/2 space-y-10"
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl font-bold text-gray-900">
-              GEDS Inovação Technology
-            </h2>
-            
-            <p className="text-lg text-gray-600 leading-relaxed">
-              Especialistas em <strong className="text-gray-800">desenvolvimento de software moderno</strong>, 
-              criamos soluções digitais que combinam performance, design intuitivo e tecnologia de ponta 
-              para impulsionar seu negócio no mercado digital.
-            </p>
-            
-            <div className="space-y-6">
-              <div className="flex gap-4">
-                <div className="bg-blue-100 p-3 rounded-lg text-blue-600 flex-shrink-0">
-                  <FiCode className="text-2xl" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-800 text-lg">Código de Qualidade</h3>
-                  <p className="text-gray-600">Desenvolvimento seguindo as melhores práticas e padrões do mercado</p>
-                </div>
-              </div>
-              
-              <div className="flex gap-4">
-                <div className="bg-cyan-100 p-3 rounded-lg text-cyan-600 flex-shrink-0">
-                  <FiTrendingUp className="text-2xl" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-800 text-lg">Resultados Mensuráveis</h3>
-                  <p className="text-gray-600">Soluções que realmente impactam seus indicadores de negócio</p>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="bg-indigo-100 p-3 rounded-lg text-indigo-600 flex-shrink-0">
-                  <FiUsers className="text-2xl" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-800 text-lg">Foco no Cliente</h3>
-                  <p className="text-gray-600">Entendemos suas necessidades para entregar exatamente o que você precisa</p>
-                </div>
-              </div>
+            <div>
+              <h2 className="text-3xl font-black text-white mb-6 tracking-tight">
+                GEDS INOVAÇÃO TECHNOLOGY
+              </h2>
+              <p className="text-lg text-gray-400 leading-relaxed font-light">
+                Especialistas em <strong className="text-white font-bold">desenvolvimento de software moderno</strong>,
+                criamos soluções digitais que combinam performance extrema, design intuitivo e tecnologia de ponta
+                para posicionar sua marca no topo.
+              </p>
             </div>
-            
-            <div className="pt-4">
-              <h4 className="font-semibold text-gray-800 mb-3">Nossas Tecnologias</h4>
+
+            <div className="space-y-8">
+              {[
+                { icon: FiCode, title: "Código de Qualidade", desc: "Desenvolvimento de alta fidelidade seguindo padrões globais." },
+                { icon: FiTrendingUp, title: "Resultados Exponenciais", desc: "Sistemas focados em conversão e crescimento acelerado." },
+                { icon: FiUsers, title: "Human Centric Design", desc: "Experiências memoráveis desenhadas para usuários reais." }
+              ].map((item, i) => (
+                <div key={i} className="flex gap-5 group">
+                  <div className="bg-white/5 p-4 rounded-xl text-cyan flex-shrink-0 group-hover:bg-cyan group-hover:text-black transition-all duration-300 border border-white/5 group-hover:border-cyan">
+                    <item.icon className="text-2xl" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-white text-lg mb-1">{item.title}</h3>
+                    <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="pt-6 border-t border-white/5">
+              <h4 className="font-bold text-white mb-5 uppercase tracking-widest text-xs">Stack Tecnológica</h4>
               <div className="flex flex-wrap gap-3">
-                <span className="px-4 py-2 bg-blue-100 text-blue-800 rounded-full font-medium text-sm">
-                  Next.js
-                </span>
-                <span className="px-4 py-2 bg-cyan-100 text-cyan-800 rounded-full font-medium text-sm">
-                  React
-                </span>
-                <span className="px-4 py-2 bg-indigo-100 text-indigo-800 rounded-full font-medium text-sm">
-                  Node.js
-                </span>
-                <span className="px-4 py-2 bg-purple-100 text-purple-800 rounded-full font-medium text-sm">
-                  UX/UI Design
-                </span>
-                <span className="px-4 py-2 bg-teal-100 text-teal-800 rounded-full font-medium text-sm">
-                  Cloud
-                </span>
+                {['Next.js', 'React', 'Node.js', 'PostgreSQL', 'AWS', 'Tailwind'].map((tech) => (
+                  <span key={tech} className="px-4 py-1.5 bg-cyan/5 text-cyan border border-cyan/20 rounded-full font-bold text-[10px] uppercase tracking-wider hover:bg-cyan hover:text-black transition-all cursor-default">
+                    {tech}
+                  </span>
+                ))}
               </div>
             </div>
           </motion.div>
         </div>
 
         {/* Estatísticas */}
-        <motion.div 
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20"
+        <motion.div
+          className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-32"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true }}
         >
-          <div className="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-            <FiAward className="text-3xl text-blue-600 mx-auto mb-3" />
-            <div className="text-3xl font-bold text-gray-900">50+</div>
-            <p className="text-gray-600">Projetos Concluídos</p>
-          </div>
-          
-          <div className="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-            <FiUsers className="text-3xl text-cyan-600 mx-auto mb-3" />
-            <div className="text-3xl font-bold text-gray-900">30+</div>
-            <p className="text-gray-600">Clientes Satisfeitos</p>
-          </div>
-          
-          <div className="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-            <FiGlobe className="text-3xl text-indigo-600 mx-auto mb-3" />
-            <div className="text-3xl font-bold text-gray-900">15+</div>
-            <p className="text-gray-600">Tecnologias</p>
-          </div>
-          
-          <div className="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-            <FiHeart className="text-3xl text-purple-600 mx-auto mb-3" />
-            <div className="text-3xl font-bold text-gray-900">100%</div>
-            <p className="text-gray-600">Dedicados</p>
-          </div>
+          {[
+            { icon: FiAward, val: "50+", label: "Projetos Concluídos", color: "cyan" },
+            { icon: FiUsers, val: "30+", label: "Clientes Satisfeitos", color: "white" },
+            { icon: FiGlobe, val: "15+", label: "Tecnologias", color: "cyan" },
+            { icon: FiHeart, val: "100%", label: "Dedicados", color: "white" }
+          ].map((stat, i) => (
+            <div key={i} className="text-center p-8 bg-white/5 rounded-2xl border border-white/5 hover:border-cyan/20 transition-all group">
+              <stat.icon className={`text-3xl ${stat.color === 'cyan' ? 'text-cyan' : 'text-white'} mx-auto mb-4 group-hover:scale-110 transition-transform`} />
+              <div className="text-4xl font-black text-white mb-2 tracking-tighter">{stat.val}</div>
+              <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">{stat.label}</p>
+            </div>
+          ))}
         </motion.div>
       </div>
     </section>

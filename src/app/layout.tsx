@@ -41,9 +41,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* O Next.js gerencia title, description e icons automaticamente */}
         <link rel="icon" href="/GEDS Inovação.png" />
       </head>
-      <body className="relative min-h-screen flex flex-col bg-white text-gray-900">
+      <body className="relative min-h-screen flex flex-col bg-black text-white selection:bg-cyan selection:text-black">
         <Header />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 overflow-x-hidden">{children}</main>
         <Footer />
         <GoldChatWidget />
         <Libras />

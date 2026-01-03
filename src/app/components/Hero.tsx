@@ -1,60 +1,85 @@
-import Link from "next/link";
+"use client";
 
-const Hero = () => {
+import Link from "next/link";
+import { motion } from "framer-motion";
+
+export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 text-white min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative bg-black text-white min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Elementos de fundo decorativos */}
-      <div className="absolute top-0 left-0 w-full h-full opacity-10">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500 rounded-full mix-blend-soft-light filter blur-xl"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-500 rounded-full mix-blend-soft-light filter blur-xl"></div>
+      {/* Elementos de fundo decorativos (Glows) */}
+      <div className="absolute top-0 left-0 w-full h-full">
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-cyan/20 rounded-full filter blur-[150px] animate-pulse"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-cyan/10 rounded-full filter blur-[120px]"></div>
+
+        {/* Subtle Grid Pattern */}
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-20"></div>
       </div>
-      
+
       <div className="max-w-4xl px-6 text-center relative z-10">
-        <div className="mb-8">
-          <div className="inline-block bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
-            <span className="text-blue-300 font-medium">Inovação & Tecnologia</span>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="mb-8"
+        >
+          <div className="inline-block bg-cyan/10 backdrop-blur-md px-4 py-2 rounded-full mb-6 border border-cyan/30">
+            <span className="text-cyan font-bold tracking-widest text-xs uppercase">Inovação & Tecnologia</span>
           </div>
-        </div>
-        
-        <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-cyan-300">
-            Soluções Inteligentes
-          </span>{" "}
-          para o seu Negócio
-        </h1>
+        </motion.div>
 
-        <p className="text-lg md:text-xl text-blue-100 mb-10 max-w-3xl mx-auto">
-          A <strong className="text-white">GEDS Inovação</strong> desenvolve produtos digitais modernos,
-          escaláveis e sob medida. Transformamos suas ideias em plataformas de alta performance 
-          que impulsionam resultados.
-        </p>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <h1 className="text-5xl md:text-8xl font-black leading-tight mb-8">
+            <span className="text-white">
+              Soluções
+            </span><br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan to-white drop-shadow-[0_0_15px_rgba(0,219,255,0.5)]">
+              Inteligentes
+            </span>
+          </h1>
+        </motion.div>
 
-        <div className="flex flex-wrap justify-center gap-4">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+        >
+          <p className="text-lg md:text-xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed">
+            A <strong className="text-cyan">GEDS Inovação</strong> desenvolve produtos digitais modernos,
+            escaláveis e sob medida. Transformamos suas ideias em plataformas de alta performance.
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="flex flex-wrap justify-center gap-6"
+        >
           <a
             href="#servicos"
-            className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-4 rounded-full text-lg font-medium hover:from-blue-600 hover:to-cyan-600 transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-cyan-500/20"
+            className="group relative px-8 py-4 bg-cyan text-black rounded-full text-lg font-bold transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,219,255,0.6)] hover:scale-105"
           >
             Nossos Serviços
           </a>
           <Link
-            href="/contatos"
-            className="border-2 border-white/30 bg-white/10 backdrop-blur-sm px-8 py-4 rounded-full text-lg font-medium hover:bg-white hover:text-blue-900 transition-all duration-300 transform hover:-translate-y-1"
+            href="/login"
+            className="group relative px-8 py-4 border border-cyan/50 text-cyan rounded-full text-lg font-bold transition-all duration-300 hover:bg-cyan/10 hover:shadow-[0_0_20px_rgba(0,219,255,0.2)] hover:scale-105"
           >
-            Entre em Contato
+            Acessar Plataforma
           </Link>
-        </div>
-        
-        <div className="mt-16 animate-bounce">
-          <div className="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-white/70 rounded-full mt-2"></div>
-          </div>
+        </motion.div>
+
+        <div className="mt-20 opacity-30">
+          <div className="w-px h-24 bg-gradient-to-b from-cyan to-transparent mx-auto"></div>
         </div>
       </div>
     </section>
   );
-};
-
-export default Hero;
+}

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { MessageCircle, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function GoldChatWidget() {
   const [open, setOpen] = useState(false);
@@ -115,8 +116,8 @@ export default function GoldChatWidget() {
             userInput === "1"
               ? "8h às 12h"
               : userInput === "2"
-              ? "14h às 18h"
-              : input;
+                ? "14h às 18h"
+                : input;
 
           const finalData = {
             ...userData,
@@ -264,67 +265,102 @@ export default function GoldChatWidget() {
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
-      {!open && (
-        <div className="absolute bottom-16 right-0 bg-white text-black text-sm px-3 py-2 rounded shadow border border-gray-200 animate-bounce">
-          Dúvidas? Fale comigo! 👇
-        </div>
-      )}
+      <AnimatePresence>
+        {!open && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            className="absolute bottom-20 right-0 bg-black/80 backdrop-blur-md text-cyan text-xs font-bold px-4 py-2 rounded-full shadow-[0_0_15px_rgba(0,219,255,0.3)] border border-cyan/40 mb-2 whitespace-nowrap"
+          >
+            Dúvidas? Fale comigo! <span className="animate-bounce inline-block">👇</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {!open ? (
-        <button
+        <motion.button
+          whileHover={{ scale: 1.1, boxShadow: "0 0 20px rgba(0,219,255,0.6)" }}
+          whileTap={{ scale: 0.9 }}
           onClick={() => setOpen(true)}
-          className="bg-yellow-500 text-white p-4 rounded-full shadow-lg hover:bg-yellow-600 transition"
+          className="bg-black text-cyan p-4 rounded-full shadow-[0_0_15px_rgba(0,219,255,0.3)] border-2 border-cyan/50 transition-all duration-300"
         >
-          <MessageCircle className="w-6 h-6" />
-        </button>
+          <MessageCircle className="w-8 h-8" />
+        </motion.button>
       ) : (
-        <div className="w-80 h-96 bg-white rounded-lg shadow-lg flex flex-col overflow-hidden">
-          <div className="bg-yellow-500 text-white p-4 flex justify-between items-center">
-            <div className="flex items-center space-x-2">
-              <img
-                src="/gold.jpg" // Substitua pelo caminho correto da sua imagem
-                alt="Gold"
-                className="w-6 h-6 rounded-full"
-              />
-              <span>Gold - Assistente Virtual</span>
+        <motion.div
+          initial={{ opacity: 0, y: 100, scale: 0.5, transformOrigin: "bottom right" }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          className="w-80 sm:w-96 h-[500px] bg-black/90 backdrop-blur-xl rounded-2xl shadow-[0_0_40px_rgba(0,219,255,0.2)] border border-cyan/30 flex flex-col overflow-hidden"
+        >
+          {/* Header */}
+          <div className="bg-cyan/10 border-b border-cyan/20 p-4 flex justify-between items-center bg-gradient-to-r from-cyan/20 to-transparent">
+            <div className="flex items-center space-x-3">
+              <div className="relative">
+                <img
+                  src="/gold.jpg"
+                  alt="Gold"
+                  className="w-10 h-10 rounded-full border-2 border-cyan shadow-[0_0_10px_rgba(0,219,255,0.5)] object-cover"
+                />
+                <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-black animate-pulse"></div>
+              </div>
+              <div>
+                <h3 className="text-white font-bold text-sm">Gold</h3>
+                <p className="text-cyan/70 text-[10px] uppercase tracking-widest">IA Assistente</p>
+              </div>
             </div>
-            <button onClick={() => setOpen(false)}>
-              <X />
+            <button
+              onClick={() => setOpen(false)}
+              className="text-white/50 hover:text-cyan transition-colors"
+            >
+              <X className="w-5 h-5" />
             </button>
           </div>
 
-          <div className="flex-1 p-4 overflow-y-auto space-y-2">
+          {/* Messages */}
+          <div className="flex-1 p-4 overflow-y-auto space-y-4 custom-scrollbar">
             {messages.map((msg, i) => (
-              <div
+              <motion.div
+                initial={{ opacity: 0, x: msg.from === "gold" ? -10 : 10 }}
+                animate={{ opacity: 1, x: 0 }}
                 key={i}
-                className={`whitespace-pre-line p-2 rounded max-w-[80%] ${
-                  msg.from === "gold"
-                    ? "bg-gray-100 text-left"
-                    : "bg-yellow-200 self-end text-right"
-                }`}
+                className={`flex ${msg.from === "gold" ? "justify-start" : "justify-end"}`}
               >
-                {msg.text}
-              </div>
+                <div
+                  className={`max-w-[85%] px-4 py-2 rounded-2xl text-sm leading-relaxed ${msg.from === "gold"
+                    ? "bg-white/5 text-white border border-white/10 rounded-tl-none"
+                    : "bg-cyan/20 text-cyan border border-cyan/30 rounded-tr-none shadow-[0_0_10px_rgba(0,219,255,0.1)]"
+                    }`}
+                >
+                  <p className="whitespace-pre-line">{msg.text}</p>
+                </div>
+              </motion.div>
             ))}
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="p-2 border-t flex">
-            <input
-              type="text"
-              className="flex-1 border px-2 py-1 rounded text-sm"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            />
-            <button
-              onClick={handleSend}
-              className="ml-2 bg-yellow-500 text-white px-4 py-1 rounded hover:bg-yellow-600 text-sm"
-            >
-              Enviar
-            </button>
+          {/* Input */}
+          <div className="p-4 bg-black/50 border-t border-cyan/20">
+            <div className="flex items-center bg-white/5 rounded-full border border-white/10 px-4 py-2 focus-within:border-cyan/50 focus-within:shadow-[0_0_10px_rgba(0,219,255,0.2)] transition-all">
+              <input
+                type="text"
+                placeholder="Digite sua mensagem..."
+                className="flex-1 bg-transparent border-none outline-none text-white text-sm placeholder:text-white/30"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSend()}
+              />
+              <button
+                onClick={handleSend}
+                className="ml-2 text-cyan hover:text-white transition-colors p-1"
+              >
+                <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current rotate-90">
+                  <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                </svg>
+              </button>
+            </div>
           </div>
-        </div>
+        </motion.div>
       )}
     </div>
   );
