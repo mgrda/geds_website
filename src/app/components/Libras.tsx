@@ -1,30 +1,43 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const Libras = () => {
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://vlibras.gov.br/app/vlibras-plugin.js';
-    script.async = true;
-    script.onload = () => {
-      if (window.VLibras) {
-        new (window as any).VLibras.Widget('https://vlibras.gov.br/app');
-      }
-    };
-    document.body.appendChild(script);
+  const [mounted, setMounted] = useState(false);
 
-    return () => {
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
+  useEffect(() => {
+    setMounted(true);
+    // Check if script already exists to avoid duplicate loads
+    const existingScript = document.getElementById('vlibras-script');
+
+    const initWidget = () => {
+      if ((window as any).VLibras && (window as any).VLibras.Widget) {
+        try {
+          new (window as any).VLibras.Widget('https://vlibras.gov.br/app');
+        } catch (e) {
+          console.error('VLibras error:', e);
+        }
       }
     };
+
+    if (!existingScript) {
+      const script = document.createElement('script');
+      script.id = 'vlibras-script';
+      script.src = 'https://vlibras.gov.br/app/vlibras-plugin.js';
+      script.async = true;
+      script.onload = initWidget;
+      document.body.appendChild(script);
+    } else {
+      initWidget();
+    }
   }, []);
 
+  if (!mounted) return null;
+
   return (
-    <div {...{ 'vw': 'true' }} className="enabled fixed bottom-6 right-28 z-[9999]" suppressHydrationWarning>
+    <div {...{ 'vw': 'true' }} className="enabled fixed top-1/2 -translate-y-1/2 right-0 z-[9999]">
       <div
         {...{ 'vw-access-button': 'true' }}
-        className="active rounded-full shadow-[0_0_15px_rgba(0,219,255,0.4)] border border-cyan/30 bg-black/50 backdrop-blur-sm transition-transform hover:scale-110"
+        className="active"
       />
       <div {...{ 'vw-plugin-wrapper': 'true' }}>
         <div className="vw-plugin-top-wrapper" />
