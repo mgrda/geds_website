@@ -89,207 +89,213 @@ export default function Cadastro() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800 px-4">
-        <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md text-center">
-          <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
-            <svg
-              className="h-6 w-6 text-green-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
+      <main className="h-screen w-full bg-black overflow-hidden relative">
+        <SquareReveal gridSize={12}>
+          <div className="w-full h-full flex items-center justify-center p-4 relative">
+            {/* Background Pattern */}
+            <div className="absolute inset-0 bg-[url('/grid-pattern.png')] opacity-20 pointer-events-none bg-repeat"></div>
+            {/* Glow Effect */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-green-500/20 blur-[120px] rounded-full pointer-events-none"></div>
+
+            <div className="relative z-10 w-full max-w-md p-8 bg-white/5 backdrop-blur-2xl rounded-2xl border border-white/10 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)]">
+              <div className="flex flex-col items-center text-center">
+                <div className="h-20 w-20 rounded-full bg-green-500/10 flex items-center justify-center mb-6 shadow-[0_0_20px_-5px_rgba(34,197,94,0.3)]">
+                  <svg
+                    className="h-10 w-10 text-green-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
+                <h2 className="text-3xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent mb-4">
+                  Cadastro concluído!
+                </h2>
+                <p className="text-gray-400 text-sm mb-8">
+                  Sua conta foi criada com sucesso. Agora você pode fazer login e aproveitar todos os recursos.
+                </p>
+                <Link
+                  href="/login"
+                  className="w-full inline-block bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white py-3.5 rounded-xl font-semibold transition-all duration-300 shadow-[0_0_20px_-5px_rgba(6,182,212,0.4)] hover:shadow-[0_0_25px_-5px_rgba(6,182,212,0.6)] text-center"
+                >
+                  Ir para Login
+                </Link>
+              </div>
+            </div>
           </div>
-          <h2 className="mt-3 text-2xl font-bold text-gray-800">
-            Cadastro concluído!
-          </h2>
-          <p className="mt-2 text-gray-600">
-            Sua conta foi criada com sucesso. Agora você pode fazer login.
-          </p>
-          <div className="mt-6">
-            <Link
-              href="/login"
-              className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition font-medium inline-block"
-            >
-              Ir para Login
-            </Link>
-          </div>
-        </div>
-      </div>
+        </SquareReveal>
+      </main>
     );
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800 px-4">
-      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-800">Crie sua conta</h2>
-          <p className="text-gray-600 mt-2">Preencha os campos abaixo</p>
+    <main className="h-screen w-full bg-black overflow-hidden relative">
+      <SquareReveal gridSize={12}>
+        <div className="w-full h-full flex items-center justify-center p-4 relative">
+
+          {/* Background Pattern */}
+          <div className="absolute inset-0 bg-[url('/grid-pattern.png')] opacity-20 pointer-events-none bg-repeat"></div>
+
+          {/* Glow Effect */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-cyan-500/20 blur-[120px] rounded-full pointer-events-none"></div>
+
+          <div className="relative z-10 w-full max-w-md p-8 bg-white/5 backdrop-blur-2xl rounded-2xl border border-white/10 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">Crie sua conta</h2>
+              <p className="text-gray-400 text-sm mt-2">Preencha os campos abaixo para começar</p>
+            </div>
+
+            {errors.form && (
+              <div className="flex items-center gap-2 bg-red-500/10 text-red-400 border border-red-500/20 p-3 rounded-lg mb-6 text-sm animate-pulse">
+                <FiAlertCircle />
+                <span>{errors.form}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Nome */}
+              <div>
+                <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-300">
+                  Nome completo
+                </label>
+                <div className="relative group">
+                  <FiUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-cyan-400 transition-colors duration-300" />
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Seu nome completo"
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    className={`w-full pl-10 pr-3 py-3 bg-black/40 border ${errors.name ? "border-red-500/50" : "border-white/10"} rounded-xl text-white placeholder-gray-600 focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all duration-300`}
+                  />
+                </div>
+                {errors.name && <p className="mt-1 text-xs text-red-400">{errors.name}</p>}
+              </div>
+
+              {/* E-mail */}
+              <div>
+                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-300">
+                  E-mail
+                </label>
+                <div className="relative group">
+                  <FiMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-cyan-400 transition-colors duration-300" />
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="seu@email.com"
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    className={`w-full pl-10 pr-3 py-3 bg-black/40 border ${errors.email ? "border-red-500/50" : "border-white/10"} rounded-xl text-white placeholder-gray-600 focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all duration-300`}
+                  />
+                </div>
+                {errors.email && <p className="mt-1 text-xs text-red-400">{errors.email}</p>}
+              </div>
+
+              {/* Senha */}
+              <div>
+                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-300">
+                  Senha
+                </label>
+                <div className="relative group">
+                  <FiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-cyan-400 transition-colors duration-300" />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    name="password"
+                    placeholder="Sua senha"
+                    value={form.password}
+                    onChange={(e) => setForm({ ...form, password: e.target.value })}
+                    className={`w-full pl-10 pr-10 py-3 bg-black/40 border ${errors.password ? "border-red-500/50" : "border-white/10"} rounded-xl text-white placeholder-gray-600 focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all duration-300`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-cyan-400 transition-colors"
+                  >
+                    {showPassword ? <FiEyeOff /> : <FiEye />}
+                  </button>
+                </div>
+                {errors.password && <p className="mt-1 text-xs text-red-400">{errors.password}</p>}
+              </div>
+
+              {/* Confirmar Senha */}
+              <div>
+                <label htmlFor="confirmPassword" className="block mb-2 text-sm font-medium text-gray-300">
+                  Confirme sua senha
+                </label>
+                <div className="relative group">
+                  <FiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-cyan-400 transition-colors duration-300" />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    placeholder="Confirme sua senha"
+                    value={form.confirmPassword}
+                    onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
+                    className={`w-full pl-10 pr-10 py-3 bg-black/40 border ${errors.confirmPassword ? "border-red-500/50" : "border-white/10"} rounded-xl text-white placeholder-gray-600 focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all duration-300`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-cyan-400 transition-colors"
+                  >
+                    {showPassword ? <FiEyeOff /> : <FiEye />}
+                  </button>
+                </div>
+                {errors.confirmPassword && (
+                  <p className="mt-1 text-xs text-red-400">{errors.confirmPassword}</p>
+                )}
+              </div>
+
+              {/* Termos */}
+              <div className="flex items-start">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  className="mt-1 h-4 w-4 rounded border-white/10 bg-black/40 text-cyan-500 focus:ring-cyan-500/20 focus:ring-offset-0 transition-colors"
+                />
+                <label htmlFor="terms" className="ml-2 block text-sm text-gray-400">
+                  Eu concordo com os{" "}
+                  <Link href="/termos" className="text-cyan-400 hover:text-cyan-300 transition-colors hover:underline decoration-cyan-500/30">
+                    Termos de Serviço
+                  </Link>{" "}
+                  e{" "}
+                  <Link href="/privacidade" className="text-cyan-400 hover:text-cyan-300 transition-colors hover:underline decoration-cyan-500/30">
+                    Política de Privacidade
+                  </Link>
+                </label>
+              </div>
+
+              {/* Botão de cadastro */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full relative group overflow-hidden bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white py-3.5 rounded-xl font-semibold transition-all duration-300 shadow-[0_0_20px_-5px_rgba(6,182,212,0.4)] hover:shadow-[0_0_25px_-5px_rgba(6,182,212,0.6)] disabled:opacity-70 disabled:cursor-not-allowed mt-2"
+              >
+                <span className="relative z-10">{loading ? "Carregando..." : "Cadastrar"}</span>
+                <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:animate-shine" />
+              </button>
+            </form>
+
+            <div className="mt-8 pt-6 border-t border-white/5 text-center">
+              <p className="text-sm text-gray-400">
+                Já tem uma conta?{" "}
+                <Link href="/login" className="text-cyan-400 font-medium hover:text-cyan-300 transition-colors hover:underline decoration-cyan-500/30">
+                  Faça login
+                </Link>
+              </p>
+            </div>
+          </div>
         </div>
-
-        {errors.form && (
-          <div className="flex items-center gap-2 bg-red-100 text-red-700 p-3 rounded-lg mb-4">
-            <FiAlertCircle className="text-lg" />
-            <span>{errors.form}</span>
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Nome */}
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-              Nome completo
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FiUser className="text-gray-500" />
-              </div>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Seu nome completo"
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className={`w-full pl-10 pr-3 py-3 border ${errors.name ? "border-red-500" : "border-gray-300"
-                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
-              />
-            </div>
-            {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
-          </div>
-
-          {/* E-mail */}
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              E-mail
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FiMail className="text-gray-500" />
-              </div>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="seu@email.com"
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                className={`w-full pl-10 pr-3 py-3 border ${errors.email ? "border-red-500" : "border-gray-300"
-                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
-              />
-            </div>
-            {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
-          </div>
-
-          {/* Senha */}
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-              Senha
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FiLock className="text-gray-500" />
-              </div>
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                name="password"
-                placeholder="Sua senha"
-                value={form.password}
-                onChange={(e) => setForm({ ...form, password: e.target.value })}
-                className={`w-full pl-10 pr-10 py-3 border ${errors.password ? "border-red-500" : "border-gray-300"
-                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center"
-              >
-                {showPassword ? <FiEyeOff className="text-gray-500" /> : <FiEye className="text-gray-500" />}
-              </button>
-            </div>
-            {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password}</p>}
-          </div>
-
-          {/* Confirmar Senha */}
-          <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
-              Confirme sua senha
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FiLock className="text-gray-500" />
-              </div>
-              <input
-                type={showPassword ? "text" : "password"}
-                id="confirmPassword"
-                name="confirmPassword"
-                placeholder="Confirme sua senha"
-                value={form.confirmPassword}
-                onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
-                className={`w-full pl-10 pr-10 py-3 border ${errors.confirmPassword ? "border-red-500" : "border-gray-300"
-                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center"
-              >
-                {showPassword ? <FiEyeOff className="text-gray-500" /> : <FiEye className="text-gray-500" />}
-              </button>
-            </div>
-            {errors.confirmPassword && (
-              <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>
-            )}
-          </div>
-
-          {/* Termos */}
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              id="terms"
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-            />
-            <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">
-              Eu concordo com os{" "}
-              <Link href="/termos" className="text-blue-600 hover:underline">
-                Termos de Serviço
-              </Link>{" "}
-              e{" "}
-              <Link href="/privacidade" className="text-blue-600 hover:underline">
-                Política de Privacidade
-              </Link>
-            </label>
-          </div>
-
-          {/* Botão de cadastro */}
-          <button
-            type="submit"
-            disabled={loading}
-            className={`w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition flex justify-center items-center ${loading ? "opacity-70 cursor-not-allowed" : ""
-              }`}
-          >
-            {loading ? (
-              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-            ) : (
-              "Cadastrar"
-            )}
-          </button>
-        </form>
-
-        <p className="text-center text-sm text-gray-600 mt-6">
-          Já tem uma conta?{" "}
-          <Link href="/login" className="text-blue-600 hover:underline font-medium">
-            Faça login
-          </Link>
-        </p>
-      </div>
+      </SquareReveal>
     </main>
   );
 }

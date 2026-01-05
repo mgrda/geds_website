@@ -95,7 +95,7 @@ const Services = () => {
                   <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors">{service.title}</h3>
                   <p className="text-gray-400 mb-4">{service.description}</p>
                   <Link
-                    href="#contato"
+                    href="/sobre-servicos"
                     className="inline-flex items-center text-cyan-400 font-medium hover:text-cyan-300 transition"
                   >
                     Saiba mais

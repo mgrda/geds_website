@@ -5,63 +5,68 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import { motion } from "framer-motion";
 import { FiArrowRight } from "react-icons/fi";
+import {
+  Code2,
+  Cloud,
+  LineChart,
+  Layout,
+  Search,
+  PenTool,
+  Zap,
+  ShieldCheck,
+} from "lucide-react";
 import "swiper/css";
 import "swiper/css/pagination";
 
 const HomeContent = () => {
   const services = [
     {
-      title: "Desenvolvimento Web",
-      desc: "Soluções web escaláveis com foco em performance, segurança e usabilidade.",
-      image: "https://cdn-icons-png.flaticon.com/512/1006/1006360.png",
-      color: "bg-blue-100",
+      title: "Desenvolvimento Sob Medida",
+      desc: "Sistemas corporativos de alta complexidade. Foco em performance, segurança e escalabilidade real.",
+      icon: <Code2 className="w-12 h-12 text-cyan" />,
     },
     {
-      title: "Modernização de Sistemas",
-      desc: "Refatoração e redesign de sistemas legados com tecnologias modernas.",
-      image: "https://cdn-icons-png.flaticon.com/512/4228/4228700.png",
-      color: "bg-purple-100",
+      title: "Cloud & Infraestrutura",
+      desc: "Arquiteturas modernas e migração para nuvem. Redução de custos e eliminação de dívida técnica.",
+      icon: <Cloud className="w-12 h-12 text-cyan" />,
     },
     {
-      title: "Prototipagem e MVPs",
-      desc: "Valide sua ideia com agilidade por meio de protótipos funcionais.",
-      image: "https://cdn-icons-png.flaticon.com/512/2306/2306154.png",
-      color: "bg-green-100",
+      title: "Consultoria Estratégica",
+      desc: "Transformamos desafios de negócio em roadmaps técnicos viáveis. Do MVP ao produto final.",
+      icon: <LineChart className="w-12 h-12 text-cyan" />,
     },
     {
-      title: "Soluções Inovadoras",
-      desc: "Plataformas digitais e ferramentas inteligentes que resolvem desafios reais com criatividade e tecnologia de ponta.",
-      image: "https://cdn-icons-png.flaticon.com/512/8090/8090406.png",
-      color: "bg-cyan-100",
+      title: "Data & Analytics",
+      desc: "Dashboards inteligentes e integração de dados para decisões baseadas em fatos, não em intuição.",
+      icon: <Search className="w-12 h-12 text-cyan" />,
     },
     {
-      title: "Criação de Websites Profissionais",
-      desc: "Sites institucionais, landing pages, blogs e portfólios modernos com foco em conversão e presença online.",
-      image: "https://cdn-icons-png.flaticon.com/512/3039/3039436.png",
-      color: "bg-indigo-100",
+      title: "UX/UI Design",
+      desc: "Interfaces que convertem. Foco total na experiência do usuário e na identidade da sua marca.",
+      icon: <Layout className="w-12 h-12 text-cyan" />,
     },
   ];
 
   const processo = [
     {
-      step: "1. Entendimento",
-      desc: "Reuniões com o cliente para entender o problema e as necessidades do projeto.",
-      image: "https://cdn-icons-png.flaticon.com/512/4149/4149649.png",
+      step: "1. Diagnóstico",
+      desc: "Mergulhamos no seu negócio para entender o problema raiz antes de escrever qualquer linha de código.",
+      icon: <Search className="w-8 h-8 text-black" />,
     },
     {
-      step: "2. Prototipação",
-      desc: "Desenhamos e validamos interfaces antes do desenvolvimento.",
-      image: "https://cdn-icons-png.flaticon.com/512/4839/4839908.png",
+      step: "2. Estratégia Visual",
+      desc: "Prototipagem de alta fidelidade para validar fluxos e garantir que estamos construindo o produto certo.",
+      icon: <PenTool className="w-8 h-8 text-black" />,
     },
     {
-      step: "3. Desenvolvimento",
-      desc: "Implementação ágil com tecnologias modernas e boas práticas.",
-      image: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
+      step: "3. Construção Ágil",
+      desc: "Sprints focados em entrega de valor. Você acompanha a evolução do produto quinzenalmente.",
+      icon: <Zap className="w-8 h-8 text-black" />,
     },
     {
-      step: "4. Entrega e Suporte",
-      desc: "Implementação completa com acompanhamento técnico e suporte contínuo.",
-      image: "https://cdn-icons-png.flaticon.com/512/3050/3050525.png",
+      step: "4. Qualidade & Scale",
+      desc: "Testes rigorosos e preparação para o lançamento. Suporte contínuo para evoluir sua plataforma.",
+      icon: <ShieldCheck className="w-8 h-8 text-black" />,
     },
   ];
 
@@ -75,11 +80,11 @@ const HomeContent = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-4xl md:text-5xl font-bold mb-6 text-white leading-tight">
-          Transformamos ideias em <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan to-white drop-shadow-[0_0_10px_rgba(0,219,255,0.3)]">soluções digitais</span> inovadoras
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 text-white leading-[1.1]">
+          Soluções Digitais que <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan to-blue-400">Impulsionam Negócios</span>
         </h1>
-        <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-          Na <strong className="font-semibold text-cyan">GEDS Inovação</strong>, unimos criatividade, performance e design para criar produtos digitais que geram resultados reais.
+        <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          Somos parceiros de tecnologia para empresas que buscam ir além. Unimos engenharia de ponta e design estratégico para criar produtos que o mercado ama.
         </p>
       </motion.section>
 
@@ -96,7 +101,7 @@ const HomeContent = () => {
             <img
               src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
               alt="Desenvolvimento Web Moderno"
-              className="rounded-2xl shadow-xl object-cover w-full h-80 md:h-96"
+              className="rounded-2xl shadow-xl object-cover w-full h-80 md:h-96 grayscale hover:grayscale-0 transition-all duration-700"
             />
           </motion.div>
 
@@ -107,16 +112,16 @@ const HomeContent = () => {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-white">
-              Inovação com <span className="text-cyan">Propósito</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight">
+              Mais do que Código, <span className="text-cyan">Resultados</span>
             </h2>
             <p className="text-lg text-gray-400">
-              Na GEDS Inovação, acreditamos que a tecnologia deve resolver problemas reais. Cada linha de código que escrevemos é pensada para entregar valor tangível ao seu negócio.
+              Acreditamos que a tecnologia deve servir ao negócio, não o contrário. Nossa abordagem é pragmática: resolvemos problemas complexos com soluções simples e eficientes.
             </p>
             <div className="flex flex-wrap gap-4 pt-4">
-              <span className="px-4 py-2 bg-cyan/10 text-cyan rounded-full text-sm font-medium border border-cyan/20">Performance</span>
-              <span className="px-4 py-2 bg-cyan/10 text-cyan rounded-full text-sm font-medium border border-cyan/20">Inovação</span>
-              <span className="px-4 py-2 bg-cyan/10 text-cyan rounded-full text-sm font-medium border border-cyan/20">Design Inteligente</span>
+              <span className="px-4 py-2 bg-cyan/10 text-cyan rounded-full text-sm font-medium border border-cyan/20">Arquitetura Limpa</span>
+              <span className="px-4 py-2 bg-cyan/10 text-cyan rounded-full text-sm font-medium border border-cyan/20">DevOps</span>
+              <span className="px-4 py-2 bg-cyan/10 text-cyan rounded-full text-sm font-medium border border-cyan/20">Data Driven</span>
             </div>
           </motion.div>
         </div>
@@ -131,11 +136,11 @@ const HomeContent = () => {
           transition={{ delay: 0.3 }}
         >
           <span className="inline-block mb-4 text-cyan font-bold bg-cyan/10 px-4 py-2 rounded-full text-xs uppercase tracking-widest border border-cyan/20">
-            Nossas Soluções
+            Expertise
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Nossos Serviços</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">O Que Fazemos</h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Soluções completas para impulsionar seu negócio digital
+            Da concepção ao lançamento, cobrimos todo o ciclo de vida digital
           </p>
         </motion.div>
 
@@ -157,8 +162,8 @@ const HomeContent = () => {
                 className="bg-white/5 backdrop-blur-sm p-8 rounded-2xl shadow-xl h-full border border-white/10 hover:border-cyan/50 hover:shadow-[0_0_20px_rgba(0,219,255,0.1)] transition-all"
                 whileHover={{ y: -10 }}
               >
-                <div className="w-20 h-20 rounded-xl flex items-center justify-center mb-6 mx-auto bg-cyan/10">
-                  <img src={item.image} alt={item.title} className="w-12 h-12 object-contain brightness-110" />
+                <div className="w-20 h-20 rounded-xl flex items-center justify-center mb-6 mx-auto bg-cyan/10 ring-1 ring-cyan/20">
+                  {item.icon}
                 </div>
                 <h3 className="text-2xl font-bold text-center mb-4 text-white">{item.title}</h3>
                 <p className="text-gray-400 text-center">{item.desc}</p>
@@ -193,11 +198,11 @@ const HomeContent = () => {
           viewport={{ once: true }}
         >
           <span className="inline-block mb-4 text-cyan font-bold bg-cyan/10 px-4 py-2 rounded-full text-xs uppercase tracking-widest border border-cyan/20">
-            Metodologia
+            Como Trabalhamos
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Nosso Processo</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Metodologia Ágil</h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Metodologia clara e eficiente para garantir o sucesso do seu projeto
+            Transparência e previsibilidade em cada etapa
           </p>
         </motion.div>
 
@@ -211,8 +216,8 @@ const HomeContent = () => {
               transition={{ delay: index * 0.1 + 0.3 }}
               viewport={{ once: true }}
             >
-              <div className="bg-cyan/10 w-16 h-16 rounded-full flex items-center justify-center mb-4 mx-auto">
-                <img src={item.image} alt={item.step} className="w-8 h-8 object-contain brightness-200" />
+              <div className="bg-cyan w-16 h-16 rounded-full flex items-center justify-center mb-4 mx-auto shadow-lg shadow-cyan/20">
+                {item.icon}
               </div>
               <h3 className="text-xl font-semibold mb-3 text-white">{item.step}</h3>
               <p className="text-gray-400 text-sm">{item.desc}</p>
@@ -249,11 +254,11 @@ const HomeContent = () => {
           viewport={{ once: true }}
         >
           <span className="inline-block mb-4 text-cyan font-bold bg-cyan/10 px-4 py-2 rounded-full text-xs uppercase tracking-widest border border-cyan/20">
-            Nossos Trabalhos
+            Projetos Realizados
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Nossos Portfólios</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Cases de Sucesso</h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Conheça alguns dos projetos que já desenvolvemos
+            O resultado da união entre tecnologia e estratégia
           </p>
         </motion.div>
 
@@ -326,13 +331,13 @@ const HomeContent = () => {
           Entre em contato conosco e descubra como a GEDS Inovação pode ajudar seu negócio a alcançar novos patamares.
         </p>
         <Link href="/contatos">
-          <span className="inline-flex items-center bg-cyan text-black px-10 py-4 rounded-full font-black hover:bg-white hover:shadow-[0_0_30px_rgba(0,219,255,0.6)] transition shadow-lg cursor-pointer text-lg">
-            Iniciar Projeto
-            <FiArrowRight className="ml-3" />
+          <span className="inline-flex items-center bg-cyan text-black px-10 py-4 rounded-full font-bold hover:bg-white hover:shadow-[0_0_30px_rgba(0,219,255,0.6)] transition-all shadow-lg cursor-pointer text-lg group">
+            Começar Agora
+            <FiArrowRight className="ml-3 transition-transform group-hover:translate-x-1" />
           </span>
         </Link>
       </motion.section>
-    </main>
+    </main >
   );
 };
 

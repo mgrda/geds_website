@@ -306,7 +306,7 @@ export default function GoldChatWidget() {
               </div>
               <div>
                 <h3 className="text-white font-bold text-sm">Gold</h3>
-                <p className="text-cyan/70 text-[10px] uppercase tracking-widest">IA Assistente</p>
+                <p className="text-cyan/70 text-[10px] uppercase tracking-widest">Assistente de IA</p>
               </div>
             </div>
             <button

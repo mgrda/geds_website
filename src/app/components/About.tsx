@@ -16,13 +16,13 @@ export default function About() {
           viewport={{ once: true }}
         >
           <span className="inline-block mb-4 text-cyan font-bold bg-cyan/10 px-4 py-2 rounded-full text-xs uppercase tracking-widest border border-cyan/20">
-            Quem Somos
+            Nossa Essência
           </span>
           <h1 className="text-4xl md:text-6xl font-black text-white mb-6">
-            Inovação com <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan to-white drop-shadow-[0_0_10px_rgba(0,219,255,0.3)]">Propósito</span>
+            Parceiros Tecnológicos de <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan to-white drop-shadow-[0_0_10px_rgba(0,219,255,0.3)]">Longo Prazo</span>
           </h1>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            Transformamos ideias em soluções digitais que impulsionam negócios através de tecnologia disruptiva.
+            Somos uma casa de software boutique. Acompanhamos sua jornada de transformação digital com times dedicados, metodologia ágil e obsessão por qualidade.
           </p>
         </motion.div>
 

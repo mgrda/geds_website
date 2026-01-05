@@ -1,6 +1,7 @@
 'use client';
 import Link from "next/link";
 import { LogIn, Menu } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 
 const Header = () => {
@@ -31,9 +32,9 @@ const Header = () => {
           {[
             { name: "Início", href: "/" },
             { name: "Sobre", href: "/#about" },
-            { name: "Serviços", href: "/#servicos" },
-            { name: "Processos", href: "/#processo" },
-            { name: "Portfólios", href: "/#portfolios" }
+            { name: "Expertise", href: "/#servicos" },
+            { name: "Metodologia", href: "/#processo" },
+            { name: "Cases", href: "/#portfolios" }
           ].map((item) => (
             <Link
               key={item.name}
@@ -48,7 +49,7 @@ const Header = () => {
             href="/plans"
             className="bg-cyan text-black px-6 py-2 rounded-full transition-all duration-300 font-black text-sm uppercase tracking-wider hover:bg-white hover:shadow-[0_0_20px_rgba(0,219,255,0.4)]"
           >
-            Nossos Planos
+            Planos
           </Link>
         </nav>
 
@@ -74,43 +75,56 @@ const Header = () => {
       </div>
 
       {/* Menu mobile expandido */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-black/95 backdrop-blur-xl px-6 py-8 absolute w-full top-full left-0 shadow-2xl border-b border-cyan/20 animate-in slide-in-from-top duration-300">
-          <nav className="flex flex-col gap-6">
-            {[
-              { name: "Início", href: "/" },
-              { name: "Sobre", href: "/#about" },
-              { name: "Serviços", href: "/#servicos" },
-              { name: "Processos", href: "/#processo" },
-              { name: "Portfólios", href: "/#portfolios" }
-            ].map((item) => (
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="md:hidden bg-black/95 backdrop-blur-xl px-6 py-8 absolute w-full top-full left-0 shadow-2xl border-b border-cyan/20 overflow-hidden"
+          >
+            <nav className="flex flex-col gap-6">
+              {[
+                { name: "Início", href: "/" },
+                { name: "Sobre", href: "/#about" },
+                { name: "Expertise", href: "/#servicos" },
+                { name: "Metodologia", href: "/#processo" },
+                { name: "Cases", href: "/#portfolios" }
+              ].map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="text-lg font-bold text-white hover:text-cyan transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              ))}
               <Link
-                key={item.name}
-                href={item.href}
-                className="text-lg font-bold text-white hover:text-cyan transition-colors"
+                href="/plans"
+                className="bg-cyan text-black px-4 py-3 rounded-full transition-all duration-300 font-bold text-center"
                 onClick={() => setIsMenuOpen(false)}
               >
-                {item.name}
+                Ver Planos
               </Link>
-            ))}
-            <Link
-              href="/plans"
-              className="bg-cyan text-black px-4 py-3 rounded-full transition-all duration-300 font-bold text-center"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Nossos Planos
-            </Link>
-            <Link
-              href="/login"
-              className="flex items-center justify-center gap-2 border border-cyan/30 text-cyan px-4 py-3 rounded-full transition-all duration-300"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              <LogIn className="w-5 h-5" />
-              <span className="font-bold">Entrar</span>
-            </Link>
-          </nav>
-        </div>
-      )}
+              <Link
+                href="/plans"
+                className="hidden"
+              >
+              </Link>
+              <Link
+                href="/login"
+                className="flex items-center justify-center gap-2 border border-cyan/30 text-cyan px-4 py-3 rounded-full transition-all duration-300"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <LogIn className="w-5 h-5" />
+                <span className="font-bold">Área do Cliente</span>
+              </Link>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };

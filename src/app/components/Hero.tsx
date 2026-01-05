@@ -26,7 +26,7 @@ export default function Hero() {
           className="mb-8"
         >
           <div className="inline-block bg-cyan/10 backdrop-blur-md px-4 py-2 rounded-full mb-6 border border-cyan/30">
-            <span className="text-cyan font-bold tracking-widest text-xs uppercase">Inovação & Tecnologia</span>
+            <span className="text-cyan font-bold tracking-widest text-xs uppercase">Desenvolvimento Especializado</span>
           </div>
         </motion.div>
 
@@ -35,12 +35,12 @@ export default function Hero() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <h1 className="text-5xl md:text-8xl font-black leading-tight mb-8">
+          <h1 className="text-4xl md:text-7xl font-black leading-tight mb-8">
             <span className="text-white">
-              Soluções
+              Engenharia de Software
             </span><br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan to-white drop-shadow-[0_0_15px_rgba(0,219,255,0.5)]">
-              Inteligentes
+              & Soluções Digitais
             </span>
           </h1>
         </motion.div>
@@ -50,9 +50,9 @@ export default function Hero() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <p className="text-lg md:text-xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-            A <strong className="text-cyan">GEDS Inovação</strong> desenvolve produtos digitais modernos,
-            escaláveis e sob medida. Transformamos suas ideias em plataformas de alta performance.
+          <p className="text-lg md:text-xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed font-light">
+            A <strong className="text-cyan font-semibold">GEDS Inovação</strong> é sua parceira estratégica na construção de ecossistemas digitais.
+            Unimos visão de negócio e excelência técnica para entregar plataformas seguras, escaláveis e de alto valor agregado.
           </p>
         </motion.div>
 

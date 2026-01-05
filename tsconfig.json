@@ -28,7 +28,7 @@
     },
     "typeRoots": [
       "./node_modules/@types",
-      "./src/@types" // Adicionando a pasta src/@types para os tipos
+      "./src/@types"
     ],
     "plugins": [
       {
@@ -41,7 +41,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/@types/global.d.ts" // Certifique-se de incluir o arquivo global.d.ts aqui
+    "src/@types/**/*.d.ts"
   ],
   "exclude": [
     "node_modules"
