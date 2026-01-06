@@ -3,29 +3,34 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { FiArrowRight, FiCheckCircle } from "react-icons/fi";
+import { Search, PenTool, Zap, ShieldCheck } from "lucide-react";
 import SquareReveal from "../components/SquareReveal";
 
 const ProcessoPage = () => {
   const etapas = [
     {
-      title: "1. Entendimento",
-      desc: "Realizamos reuniões e análises aprofundadas para entender suas dores, metas e expectativas. Aqui nascem as soluções certas.",
-      features: ["Briefing detalhado", "Análise de mercado", "Definição de escopo"]
+      title: "1. Diagnóstico e Imersão",
+      desc: "Antes de escrevermos uma linha de código, mergulhamos no seu ecossistema. Realizamos workshops de descoberta para mapear dores, identificar oportunidades e definir KPIs claros de sucesso.",
+      icon: <Search className="w-12 h-12 text-cyan-400" />,
+      features: ["Análise de viabilidade técnica", "Mapeamento de jornada do usuário", "Definição de arquitetura"]
     },
     {
-      title: "2. Prototipação",
-      desc: "Transformamos ideias em protótipos visuais navegáveis. Validamos com você antes de começar o desenvolvimento real.",
-      features: ["Wireframes interativos", "Testes de usabilidade", "Validação de conceito"]
+      title: "2. Estratégia Visual",
+      desc: "Tangibilizamos a solução através de design de interface (UI) e experiência (UX). Criamos protótipos navegáveis de alta fidelidade para validar fluxos antes do desenvolvimento.",
+      icon: <PenTool className="w-12 h-12 text-cyan-400" />,
+      features: ["Wireframes e Prototipagem", "Design System Scalável", "Validação com Stakeholders"]
     },
     {
-      title: "3. Desenvolvimento",
-      desc: "Implementação do projeto com metodologias ágeis, entregas parciais e validações constantes para garantir qualidade.",
-      features: ["Sprints quinzenais", "Testes automatizados", "Deploy contínuo"]
+      title: "3. Construção Ágil",
+      desc: "Iniciamos o desenvolvimento em ciclos quinzenais (Sprints). Priorizamos a entrega contínua de valor, permitindo feedback rápido e adaptação a mudanças de mercado.",
+      icon: <Zap className="w-12 h-12 text-cyan-400" />,
+      features: ["Metodologia Scrum/Kanban", "Código Limpo e Documentado", "Revisões de Código Rigorosas"]
     },
     {
-      title: "4. Entrega e Suporte",
-      desc: "Depois do lançamento, seguimos com você oferecendo suporte técnico, melhorias e atualizações contínuas.",
-      features: ["Treinamento da equipe", "Monitoramento 24/7", "Otimizações contínuas"]
+      title: "4. Qualidade & Scale",
+      desc: "Garantimos a robustez da aplicação através de testes automatizados e pipelines de CI/CD. Preparamos o ambiente para suportar crescimento exponencial com segurança.",
+      icon: <ShieldCheck className="w-12 h-12 text-cyan-400" />,
+      features: ["Testes Automatizados", "Monitoramento de Performance", "Infraestrutura Cloud Scalável"]
     },
   ];
 
@@ -68,8 +73,15 @@ const ProcessoPage = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <h2 className="text-xl font-bold text-white mb-3">{etapa.title}</h2>
-                <p className="text-gray-400 mb-4">{etapa.desc}</p>
+                <div className="flex items-start gap-6 mb-6">
+                  <div className="p-3 bg-cyan-500/10 rounded-lg">
+                    {etapa.icon}
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold text-white mb-2">{etapa.title}</h2>
+                    <p className="text-gray-400">{etapa.desc}</p>
+                  </div>
+                </div>
 
                 <ul className="space-y-2">
                   {etapa.features.map((feature, i) => (

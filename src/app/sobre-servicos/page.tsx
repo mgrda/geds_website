@@ -58,63 +58,63 @@ const ServiceDetail = ({ id, title, description, benefits, image, reverse }: { i
 export default function ServicesPage() {
     const services = [
         {
-            id: "desenvolvimento-web",
-            title: "Desenvolvimento Web Full Stack",
-            description: "Construímos aplicações web robustas e escaláveis, utilizando as tecnologias mais avançadas do mercado como React, Next.js e TypeScript. Nosso foco é entregar performance superior, SEO otimizado e uma experiência de usuário impecável.",
+            id: "desenvolvimento-sob-medida",
+            title: "Desenvolvimento Sob Medida",
+            description: "Criamos software corporativo de alta complexidade desenhado especificamente para as regras de negócio da sua empresa. Utilizamos arquiteturas robustas (Clean Architecture, Hexagonal) para garantir que o sistema cresça junto com sua operação, sem perder performance ou segurança.",
             image: "https://images.pexels.com/photos/374074/pexels-photo-374074.jpeg",
             benefits: [
-                "Single Page Applications (SPA) ultrarrápidas",
-                "Dashboards administrativos complexos",
-                "Integração com APIs e serviços de terceiros",
-                "Arquitetura escalável e segura"
+                "Arquitetura escalável e resiliente",
+                "Segurança by-design",
+                "Integração total com sistemas legados",
+                "Código auditável e de alta qualidade"
             ]
         },
         {
-            id: "solucoes-inovadoras",
-            title: "Soluções Inovadoras & Consultoria",
-            description: "Não apenas escrevemos código, nós resolvemos problemas de negócio. Nossa consultoria técnica ajuda a transformar suas ideias abstratas em roadmaps de produtos concretos e viáveis.",
-            image: "https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg",
-            benefits: [
-                "Análise de viabilidade técnica",
-                "Design de arquitetura de software",
-                "Automação de processos empresariais",
-                "Implementação de IA e Machine Learning"
-            ]
-        },
-        {
-            id: "websites-profissionais",
-            title: "Websites Institucionais Premium",
-            description: "Sua presença digital é o cartão de visitas da sua empresa. Criamos websites com design exclusivo, identidade visual marcante e foco total em conversão de leads.",
-            image: "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg",
-            benefits: [
-                "Design responsivo para todos os dispositivos",
-                "Animações fluidas e micro-interações",
-                "Otimização para motores de busca (SEO)",
-                "CMS fácil de gerenciar"
-            ]
-        },
-        {
-            id: "modernizacao-sistemas",
-            title: "Modernização de Sistemas Legados",
-            description: "Sistemas antigos podem frear o crescimento da sua empresa. Nós modernizamos sua infraestrutura tecnológica, migrando sistemas legados para a nuvem com segurança e sem perda de dados.",
+            id: "cloud-infraestrutura",
+            title: "Cloud & Infraestrutura",
+            description: "Modernize sua operação migrando para a nuvem. Projetamos e gerenciamos infraestruturas cloud-native (AWS, Azure, Google Cloud) que reduzem custos operacionais, aumentam a disponibilidade e eliminam dívidas técnicas de servidores on-premise.",
             image: "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg",
             benefits: [
-                "Migração para Cloud (AWS, Azure, Google Cloud)",
-                "Refatoração de código e atualização de stack",
-                "Melhoria de performance e segurança",
-                "Redução de custos operacionais"
+                "Redução de custos com servidores (FinOps)",
+                "Alta disponibilidade e redundância",
+                "Pipelines de CI/CD automatizados",
+                "Monitoramento e observabilidade 24/7"
             ]
         },
         {
-            id: "prototipagem-mvps",
-            title: "Prototipagem rápida e MVPs",
-            description: "Quer validar uma ideia de startup? Ajudamos você a lançar seu Mínimo Produto Viável (MVP) em tempo recorde, focando nas funcionalidades essenciais para testar o mercado.",
+            id: "consultoria-estrategica",
+            title: "Consultoria Estratégica",
+            description: "Mais do que código, oferecemos visão de inteligência. Nossos especialistas atuam como parceiros estratégicos para transformar desafios de negócio em roadmaps técnicos viáveis, guiando sua empresa desde a validação de MVPs até a escala global.",
+            image: "https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg",
+            benefits: [
+                "Diagnóstico tecnológico profundo",
+                "Definição de stack e arquitetura",
+                "Otimização de processos de desenvolvimento",
+                "Mentoria técnica para times internos"
+            ]
+        },
+        {
+            id: "data-analytics",
+            title: "Data & Analytics",
+            description: "Transforme dados brutos em vantagem competitiva. Construímos pipelines de dados e dashboards inteligentes que permitem aos gestores tomar decisões baseadas em fatos e métricas reais, com visualizações intuitivas e relatórios em tempo real.",
             image: "https://images.pexels.com/photos/3810787/pexels-photo-3810787.jpeg",
             benefits: [
-                "Prototipagem de alta fidelidade (Figma)",
-                "Desenvolvimento ágil (Scrum/Kanban)",
-                "Feedback loop rápido",
-                "Lançamento em semanas, não meses"
+                "Dashboards executivos (PowerBI, Metabase)",
+                "Engenharia de dados e ETL",
+                "Modelagem de dados para BI",
+                "Insights preditivos para o negócio"
+            ]
+        },
+        {
+            id: "ux-ui-design",
+            title: "UX/UI Design",
+            description: "Interfaces que encantam e convertem. Nosso time de design cria experiências digitais centradas no usuário, aliando estética sofisticada (Cyber-Neo) com usabilidade funcional para maximizar a retenção e o engajamento.",
+            image: "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg",
+            benefits: [
+                "Pesquisa e testes com usuários",
+                "Prototipagem de alta fidelidade",
+                "Design Systems completos",
+                "Foco em acessibilidade e conversão"
             ]
         }
     ];
