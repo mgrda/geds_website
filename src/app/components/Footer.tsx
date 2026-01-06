@@ -64,11 +64,20 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-black uppercase tracking-widest text-sm mb-6">Links Rápidos</h3>
             <ul className="space-y-3">
-              {['Início', 'Sobre', 'Serviços', 'Portfólio', 'Planos'].map((item) => (
-                <li key={item}>
-                  <a href={`#${item.toLowerCase()}`} className="text-gray-400 hover:text-cyan transition-colors text-sm font-medium flex items-center group">
+              {[
+                { label: 'Início', href: '/#hero' },
+                { label: 'Sobre', href: '/#about' },
+                { label: 'Serviços', href: '/#servicos' },
+                { label: 'Portfólio', href: '/#portfolio' },
+                { label: 'Planos', href: '/#plans' },
+                { label: 'Processo', href: '/processo' },
+                { label: 'Política de Privacidade', href: '/politica-de-privacidade' },
+                { label: 'Termos de Uso', href: '/termos-de-uso' }
+              ].map((item) => (
+                <li key={item.label}>
+                  <a href={item.href} className="text-gray-400 hover:text-cyan transition-colors text-sm font-medium flex items-center group">
                     <span className="w-0 h-0.5 bg-cyan mr-0 transition-all group-hover:w-2 group-hover:mr-2"></span>
-                    {item}
+                    {item.label}
                   </a>
                 </li>
               ))}

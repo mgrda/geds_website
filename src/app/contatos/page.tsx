@@ -202,7 +202,7 @@ export default function Contact() {
                     </button>
 
                     <p className="text-center text-xs text-gray-500 mt-4">
-                      Ao enviar, você concorda com nossa <a href="#" className="text-cyan-500 hover:underline">Política de Privacidade</a>.
+                      Ao enviar, você concorda com nossa <a href="/politica-de-privacidade" className="text-cyan-500 hover:underline">Política de Privacidade</a>.
                     </p>
                   </form>
                 </div>

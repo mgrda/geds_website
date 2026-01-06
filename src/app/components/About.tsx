@@ -71,10 +71,8 @@ export default function About() {
               <h2 className="text-3xl font-black text-white mb-6 tracking-tight">
                 TECNOLOGIA GEDS INOVAÇÃO
               </h2>
-              <p className="text-lg text-gray-400 leading-relaxed font-light">
-                Especialistas em <strong className="text-white font-bold">desenvolvimento de software moderno</strong>,
-                criamos soluções digitais que combinam performance extrema, design intuitivo e tecnologia de ponta
-                para posicionar sua marca no topo.
+              <p className="text-lg text-gray-400 leading-relaxed font-light text-justify">
+                A GEDS Inovação Tech atua com tecnologia e desenvolvimento de software moderno, criando soluções digitais bem estruturadas, com foco em qualidade técnica, boa performance e experiência do usuário. Nosso trabalho é entregar sistemas organizados e pensados para atender necessidades reais de negócios, transmitindo confiança e domínio técnico. 🚀 Desenvolvemos soluções que ajudam sua empresa a fortalecer a presença digital e se posicionar melhor no ambiente tecnológico.
               </p>
             </div>
 

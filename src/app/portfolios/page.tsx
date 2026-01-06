@@ -22,21 +22,21 @@ interface Collaborator {
 const collaborators: Collaborator[] = [
   {
     name: "Edmilson Oliveira",
-    role: "Desenvolvedor Full Stack",
-    bio: "Apaixonado por interfaces modernas e experiências digitais com React e Next.js.",
+    role: "Engenheiro de Software",
+    bio: "Especialista em interfaces digitais de alta performance. Atua na construção de sistemas escaláveis utilizando o ecossistema React e Next.js, com foco em arquitetura limpa e experiência do usuário.",
     github: "https://github.com/Psds13",
     avatar: "/eusinho.jpg",
     projects: [
       {
         title: "Gerenciador de Tarefas",
         link: "https://github.com/Psds13/Gerenciador-de-Tarefas",
-        description: "Aplicação para organizar tarefas com PHP e usando o banco de dados PostgreSQL.",
+        description: "Sistema de gestão de tarefas com arquitetura robusta, utilizando PHP e integridade de dados via PostgreSQL.",
         techs: ["PHP", "PostgreSQL"],
       },
       {
         title: "Meu Carrinho",
         link: "https://github.com/prof-freedson/pi-meu-carrinho",
-        description: "Simulação de carrinho para facilitar nas compras em site.",
+        description: "Módulo de e-commerce focado em lógica de carrinho de compras e fluxo de checkout, desenvolvido com Express.js.",
         techs: ["Express.js", "Javascript", "CSS/HTML"],
       },
     ],
@@ -56,10 +56,11 @@ export default function PortfoliosPage() {
             className="text-center mb-16"
           >
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Portfólios dos Colaboradores
+              Excelência Técnica
             </h1>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-              Conheça nosso time de talentos e explore seus projetos incríveis
+            <p className="text-lg text-gray-400 max-w-3xl mx-auto leading-relaxed">
+              Acreditamos que a qualidade do software é reflexo da competência de quem o constrói.
+              Conheça os profissionais por trás das nossas soluções e os projetos que materializam nossa expertise técnica.
             </p>
           </motion.div>
 
@@ -144,6 +145,17 @@ export default function PortfoliosPage() {
               </motion.div>
             ))}
           </div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            className="mt-20 text-center border-t border-white/10 pt-10"
+          >
+            <p className="text-gray-400 text-lg font-light">
+              Nosso time combina rigor técnico, atualização constante e visão estratégica para entregar software de classe mundial. 👨‍💻
+            </p>
+          </motion.div>
         </div>
       </SquareReveal>
     </section>

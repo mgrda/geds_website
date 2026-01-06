@@ -87,9 +87,9 @@ const ProcessoPage = () => {
         {/* Highlight Section */}
         <section className="py-20 px-6 bg-gradient-to-r from-blue-900/40 to-cyan-900/40 border-y border-white/10 backdrop-blur-sm">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-6 text-white">Por que nosso processo funciona?</h2>
+            <h2 className="text-3xl font-bold mb-6 text-white">Compromisso com Prazos e Transparência</h2>
             <p className="text-xl mb-8 text-gray-300">
-              Combinamos metodologias ágeis com anos de experiência para entregar projetos que superam expectativas. Cada etapa é cuidadosamente planejada para maximizar eficiência e qualidade.
+              Sabemos que tecnologia precisa gerar valor real. Por isso, mantemos uma <strong>comunicação clara</strong> durante todo o ciclo, com cronogramas definidos e <strong>respeito absoluto aos prazos</strong>. Você acompanha cada evolução do projeto, sem surpresas.
             </p>
             <div className="grid md:grid-cols-3 gap-8 mt-12">
               <div className="bg-black/40 p-6 rounded-xl border border-white/10">
