@@ -186,7 +186,7 @@ export default function ForgotPasswordPage() {
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="w-full relative overflow-hidden bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white py-3.5 rounded-xl font-semibold transition-all duration-300 shadow-[0_0_20px_-5px_rgba(6,182,212,0.4)] hover:shadow-[0_0_25px_-5px_rgba(6,182,212,0.6)] disabled:opacity-70 disabled:cursor-not-allowed group"
+                                    className="w-full relative overflow-hidden bg-cyan-500 hover:bg-cyan-400 text-black py-3.5 rounded-xl font-bold transition-all duration-300 shadow-[0_0_20px_rgba(0,219,255,0.4)] hover:shadow-[0_0_25px_rgba(0,219,255,0.6)] disabled:opacity-70 disabled:cursor-not-allowed group"
                                 >
                                     <span className="relative z-10">{loading ? "Enviando..." : "Gerar Código"}</span>
                                     <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:animate-shine" />
@@ -244,7 +244,7 @@ export default function ForgotPasswordPage() {
                                 <button
                                     onClick={handleVerify}
                                     disabled={loading || code.some(d => !d)}
-                                    className="w-full relative overflow-hidden bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white py-3.5 rounded-xl font-semibold transition-all duration-300 shadow-[0_0_20px_-5px_rgba(6,182,212,0.4)] hover:shadow-[0_0_25px_-5px_rgba(6,182,212,0.6)] disabled:opacity-50 disabled:cursor-not-allowed group"
+                                    className="w-full relative overflow-hidden bg-cyan-500 hover:bg-cyan-400 text-black py-3.5 rounded-xl font-bold transition-all duration-300 shadow-[0_0_20px_rgba(0,219,255,0.4)] hover:shadow-[0_0_25px_rgba(0,219,255,0.6)] disabled:opacity-50 disabled:cursor-not-allowed group"
                                 >
                                     <span className="relative z-10">{loading ? "Verificando..." : "VERIFICAR"}</span>
                                     <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:animate-shine" />

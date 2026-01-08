@@ -149,7 +149,7 @@ const ProcessoPage = () => {
             href="/"
             className="inline-flex items-center border border-white/20 text-gray-300 px-6 py-3 rounded-full font-medium hover:bg-white/10 transition"
           >
-            Voltar para a Home
+            Voltar para a página inicial
           </Link>
         </div>
       </SquareReveal>

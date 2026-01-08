@@ -169,7 +169,7 @@ const Services = () => {
             href="/"
             className="inline-flex items-center bg-cyan-500 text-black px-8 py-3 rounded-full font-bold hover:bg-cyan-400 transition shadow-[0_0_20px_rgba(0,219,255,0.4)] hover:shadow-[0_0_30px_rgba(0,219,255,0.6)]"
           >
-            Voltar para a Home
+            Voltar para a página inicial
             <ArrowRight className="ml-2" />
           </Link>
         </motion.div>

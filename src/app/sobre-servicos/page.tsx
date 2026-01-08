@@ -168,7 +168,7 @@ export default function ServicesPage() {
                             </p>
                             <Link
                                 href="/contatos"
-                                className="inline-block px-10 py-4 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-xl shadow-lg hover:shadow-cyan-500/30 transition-all transform hover:-translate-y-1"
+                                className="inline-block px-10 py-4 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-xl shadow-[0_0_20px_rgba(0,219,255,0.4)] hover:shadow-[0_0_30px_rgba(0,219,255,0.6)] transition-all transform hover:-translate-y-1"
                             >
                                 Falar com um Especialista
                             </Link>

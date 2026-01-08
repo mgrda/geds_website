@@ -122,7 +122,7 @@ export default function Cadastro() {
                 </p>
                 <Link
                   href="/login"
-                  className="w-full inline-block bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white py-3.5 rounded-xl font-semibold transition-all duration-300 shadow-[0_0_20px_-5px_rgba(6,182,212,0.4)] hover:shadow-[0_0_25px_-5px_rgba(6,182,212,0.6)] text-center"
+                  className="w-full inline-block bg-cyan-500 hover:bg-cyan-400 text-black py-3.5 rounded-xl font-bold transition-all duration-300 shadow-[0_0_20px_rgba(0,219,255,0.4)] hover:shadow-[0_0_25px_rgba(0,219,255,0.6)] text-center"
                 >
                   Ir para Login
                 </Link>
@@ -278,7 +278,7 @@ export default function Cadastro() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full relative group overflow-hidden bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white py-3.5 rounded-xl font-semibold transition-all duration-300 shadow-[0_0_20px_-5px_rgba(6,182,212,0.4)] hover:shadow-[0_0_25px_-5px_rgba(6,182,212,0.6)] disabled:opacity-70 disabled:cursor-not-allowed mt-2"
+                className="w-full relative group overflow-hidden bg-cyan-500 hover:bg-cyan-400 text-black py-3.5 rounded-xl font-bold transition-all duration-300 shadow-[0_0_20px_rgba(0,219,255,0.4)] hover:shadow-[0_0_25px_rgba(0,219,255,0.6)] disabled:opacity-70 disabled:cursor-not-allowed mt-2"
               >
                 <span className="relative z-10">{loading ? "Carregando..." : "Cadastrar"}</span>
                 <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:animate-shine" />

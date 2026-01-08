@@ -193,7 +193,7 @@ export default function Contact() {
 
                     <button
                       type="submit"
-                      className="w-full group relative px-8 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl shadow-[0_0_20px_-5px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_-5px_rgba(6,182,212,0.6)] transition-all duration-300 overflow-hidden"
+                      className="w-full group relative px-8 py-4 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-xl shadow-[0_0_20px_rgba(0,219,255,0.4)] hover:shadow-[0_0_30px_rgba(0,219,255,0.6)] transition-all duration-300 overflow-hidden"
                     >
                       <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:animate-shine" />
                       <span className="relative z-10 flex items-center justify-center gap-2">
