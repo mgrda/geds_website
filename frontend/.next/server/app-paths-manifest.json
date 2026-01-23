@@ -1,0 +1,17 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/cadastro/page": "app/cadastro/page.js",
+  "/contatos/page": "app/contatos/page.js",
+  "/esqueci-senha/page": "app/esqueci-senha/page.js",
+  "/pagamento/page": "app/pagamento/page.js",
+  "/page": "app/page.js",
+  "/plans/page": "app/plans/page.js",
+  "/politica-de-privacidade/page": "app/politica-de-privacidade/page.js",
+  "/portfolios/page": "app/portfolios/page.js",
+  "/login/page": "app/login/page.js",
+  "/processo/page": "app/processo/page.js",
+  "/servicos/page": "app/servicos/page.js",
+  "/sobre-servicos/page": "app/sobre-servicos/page.js",
+  "/userProfile/page": "app/userProfile/page.js",
+  "/termos-de-uso/page": "app/termos-de-uso/page.js"
+}
