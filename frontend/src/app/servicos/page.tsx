@@ -3,46 +3,56 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import { supabase } from "@/lib/supabase";
+import { useEffect, useState } from "react";
 import { Code2, Cloud, LineChart, Search, Layout, ArrowRight } from "lucide-react";
 
+const IconMap: { [key: string]: any } = {
+  Code2: Code2,
+  Cloud: Cloud,
+  LineChart: LineChart,
+  Search: Search,
+  Layout: Layout,
+};
+
+interface Service {
+  id: number;
+  titulo: string;
+  descricao: string;
+  nome_icone: string;
+  url_imagem: string;
+  url_link: string;
+  categoria: string;
+}
+
 const Services = () => {
-  const services = [
-    {
-      title: "Desenvolvimento Sob Medida",
-      description: "Sistemas corporativos de alta complexidade. Foco em performance, segurança e escalabilidade real.",
-      icon: <Code2 className="w-12 h-12 text-cyan-400" />,
-      image: "https://images.pexels.com/photos/374074/pexels-photo-374074.jpeg",
-      link: "/sobre-servicos#desenvolvimento-sob-medida"
-    },
-    {
-      title: "Cloud & Infraestrutura",
-      description: "Arquiteturas modernas e migração para nuvem. Redução de custos e eliminação de dívida técnica.",
-      icon: <Cloud className="w-12 h-12 text-cyan-400" />,
-      image: "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg", // Was Modernização
-      link: "/sobre-servicos#cloud-infraestrutura"
-    },
-    {
-      title: "Consultoria Estratégica",
-      description: "Transformamos desafios de negócio em roadmaps técnicos viáveis. Do MVP ao produto final.",
-      icon: <LineChart className="w-12 h-12 text-cyan-400" />,
-      image: "https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg", // Was Soluções Inovadoras
-      link: "/sobre-servicos#consultoria-estrategica"
-    },
-    {
-      title: "Data & Analytics",
-      description: "Dashboards inteligentes e integração de dados para decisões baseadas em fatos, não em intuição.",
-      icon: <Search className="w-12 h-12 text-cyan-400" />,
-      image: "https://images.pexels.com/photos/3810787/pexels-photo-3810787.jpeg", // Was Prototipagem
-      link: "/sobre-servicos#data-analytics"
-    },
-    {
-      title: "UX/UI Design",
-      description: "Interfaces que convertem. Foco total na experiência do usuário e na identidade da sua marca.",
-      icon: <Layout className="w-12 h-12 text-cyan-400" />,
-      image: "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg", // Was Websites
-      link: "/sobre-servicos#ux-ui-design"
-    }
-  ];
+  const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('servicos')
+          .select('*')
+          .order('id', { ascending: true });
+
+        if (error) throw error;
+        if (data) setServices(data);
+      } catch (error) {
+        console.error('Erro ao buscar serviços:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchServices();
+  }, []);
+
+  const renderIcon = (iconName: string) => {
+    const IconComponent = IconMap[iconName] || Layout;
+    return <IconComponent className="w-12 h-12 text-cyan-400" />;
+  };
 
   return (
     <section id="servicos" className="py-20 bg-black text-white">
@@ -66,44 +76,52 @@ const Services = () => {
           </p>
         </motion.div>
 
-        {/* Grid de Serviços */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
-            <motion.div
-              key={index}
-              className="group bg-white/5 rounded-xl shadow-lg overflow-hidden border border-white/10 hover:shadow-[0_0_20px_rgba(0,219,255,0.2)] hover:border-cyan-500/50 transition-all"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05, duration: 0.3 }}
-              viewport={{ once: true }}
-              whileHover={{ y: -10 }}
-            >
-              <div className="relative h-48 overflow-hidden">
-                <Image
-                  src={service.image}
-                  alt={service.title}
-                  width={400}
-                  height={192}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+          {loading ? (
+            <div className="col-span-full text-center py-10">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500 mx-auto mb-4"></div>
+              <p className="text-gray-400">Carregando serviços...</p>
+            </div>
+          ) : (
+            services.map((service, index) => (
+              <motion.div
+                key={service.id}
+                className="group bg-white/5 rounded-xl shadow-lg overflow-hidden border border-white/10 hover:shadow-[0_0_20px_rgba(0,219,255,0.2)] hover:border-cyan-500/50 transition-all"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05, duration: 0.3 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -10 }}
+              >
+                <div className="relative h-48 overflow-hidden">
+                  <Image
+                    src={service.url_imagem}
+                    alt={service.titulo}
+                    width={400}
+                    height={192}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+                  <div className="absolute bottom-4 left-4 p-2 bg-black/60 rounded-lg backdrop-blur-md border border-white/10">
+                    {renderIcon(service.nome_icone)}
+                  </div>
+                </div>
 
-              </div>
-
-              <div className="p-6">
-                <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors">{service.title}</h3>
-                <p className="text-gray-400 mb-4">{service.description}</p>
-                <Link
-                  href={service.link}
-                  className="inline-flex items-center text-cyan-400 font-medium hover:text-cyan-300 transition"
-                >
-                  Saiba mais
-                  <ArrowRight className="ml-2" />
-                </Link>
-              </div>
-            </motion.div>
-          ))}
+                <div className="p-6">
+                  <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors">{service.titulo}</h3>
+                  <p className="text-gray-400 mb-4">{service.descricao}</p>
+                  <Link
+                    href={service.url_link}
+                    className="inline-flex items-center text-cyan-400 font-medium hover:text-cyan-300 transition"
+                  >
+                    Saiba mais
+                    <ArrowRight className="ml-2" />
+                  </Link>
+                </div>
+              </motion.div>
+            ))
+          )}
         </div>
 
         {/* Destaque Tecnológico */}

@@ -8,11 +8,12 @@ import { FiCopy, FiCheck, FiLock, FiCreditCard, FiDollarSign, FiAlertCircle, FiD
 import { FaBarcode, FaQrcode } from 'react-icons/fa';
 import jsPDF from 'jspdf';
 import SquareReveal from '../components/SquareReveal';
+import { supabase } from '@/lib/supabase';
 
 const PaymentContent = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  
+
   const [activeTab, setActiveTab] = useState<'boleto' | 'pix' | 'cartao'>('pix');
   const [discountCode, setDiscountCode] = useState('');
   const [installments, setInstallments] = useState(1);
@@ -39,14 +40,14 @@ const PaymentContent = () => {
   useEffect(() => {
     const plan = searchParams.get('plan');
     const price = searchParams.get('price');
-    
+
     if (plan) setPlanName(plan);
     if (price) {
       const p = parseFloat(price);
       setValorOriginal(p);
       setValorComDesconto(p);
     }
-    
+
     generarCodigoBarrasAleatorio();
   }, [searchParams]);
 
@@ -108,7 +109,7 @@ const PaymentContent = () => {
     const r1 = Math.floor(Math.random() * 100000).toString().padStart(5, '0');
     const r2 = Math.floor(Math.random() * 100000).toString().padStart(5, '0');
     const r3 = Math.floor(Math.random() * 100000).toString().padStart(5, '0');
-    const code = `23790.12345 ${r1}.678901 ${r2}.123456 1 999900000${Math.floor(valorOriginal*100)}`;
+    const code = `23790.12345 ${r1}.678901 ${r2}.123456 1 999900000${Math.floor(valorOriginal * 100)}`;
     setBoletoCode(code);
   };
 
@@ -125,13 +126,51 @@ const PaymentContent = () => {
 
   const handleFinalizarPagamento = async () => {
     const valorPago = descontoAplicado ? valorComDesconto : valorOriginal;
-    
+
     if (activeTab === 'boleto') {
       await handleDownloadPdf();
     }
-    
+
     setPagamentoFinalizado(true);
-    
+
+    try {
+      // 1. Buscar o ID do usuário (usando o admin como exemplo por enquanto)
+      const { data: userData } = await supabase
+        .from('usuarios')
+        .select('id')
+        .eq('email', 'edmilson@gedsinovacao.com')
+        .single();
+
+      // 2. Buscar o ID do plano
+      const { data: planData } = await supabase
+        .from('planos')
+        .select('id')
+        .eq('nome', planName)
+        .single();
+
+      // 3. Registrar o pagamento
+      const { error } = await supabase
+        .from('pagamentos')
+        .insert([
+          {
+            usuario_id: userData?.id,
+            plano_id: planData?.id,
+            valor: valorPago,
+            metodo_pagamento: activeTab,
+            status: 'concluido',
+            codigo_voucher: discountCode || null,
+            parcelas: activeTab === 'cartao' ? installments : 1,
+            cartao_final: activeTab === 'cartao' ? cardData.number.slice(-4) : null,
+            data_pagamento: new Date().toISOString()
+          }
+        ]);
+
+      if (error) throw error;
+
+    } catch (error) {
+      console.error('Erro ao registrar pagamento no Supabase:', error);
+    }
+
     const pagamentoData = {
       id: Date.now(),
       data: new Date().toLocaleDateString('pt-BR'),
@@ -145,7 +184,7 @@ const PaymentContent = () => {
     const historico = JSON.parse(localStorage.getItem('historicoPagamentos') || '[]');
     historico.unshift(pagamentoData);
     localStorage.setItem('historicoPagamentos', JSON.stringify(historico));
-    
+
     setTimeout(() => {
       router.push('/');
     }, 3000);
@@ -153,7 +192,7 @@ const PaymentContent = () => {
 
   const handleDownloadPdf = async () => {
     const pdf = new jsPDF();
-    
+
     const loadImg = (src: string): Promise<HTMLImageElement | null> => {
       return new Promise((resolve) => {
         const img = new Image();
@@ -187,7 +226,7 @@ const PaymentContent = () => {
     pdf.setFontSize(14);
     pdf.setFont('helvetica', 'bold');
     pdf.text('DETALHES DO PEDIDO', 20, 60);
-    
+
     pdf.setDrawColor(0, 219, 255);
     pdf.setLineWidth(0.5);
     pdf.line(20, 63, 190, 63);
@@ -197,7 +236,7 @@ const PaymentContent = () => {
     pdf.text(`Plano:`, 20, 75);
     pdf.setFont('helvetica', 'bold');
     pdf.text(`${planName}`, 60, 75);
-    
+
     pdf.setFont('helvetica', 'normal');
     pdf.text(`Valor:`, 20, 85);
     pdf.setFont('helvetica', 'bold');
@@ -208,12 +247,12 @@ const PaymentContent = () => {
     pdf.text(`${new Date().toLocaleDateString('pt-BR')}`, 60, 95);
 
     pdf.text(`Vencimento:`, 20, 105);
-    pdf.text(`${new Date(Date.now() + 3*24*60*60*1000).toLocaleDateString('pt-BR')}`, 60, 105);
+    pdf.text(`${new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toLocaleDateString('pt-BR')}`, 60, 105);
 
     pdf.setFontSize(14);
     pdf.setFont('helvetica', 'bold');
     pdf.text('CÓDIGO DE BARRAS', 20, 125);
-    
+
     pdf.setFillColor(240, 240, 240);
     pdf.rect(20, 130, 170, 15, 'F');
     pdf.setFont('courier', 'bold');
@@ -362,7 +401,7 @@ const PaymentContent = () => {
                         </div>
                         <select value={installments} onChange={(e) => setInstallments(Number(e.target.value))} className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-xl text-white focus:border-cyan/50 outline-none">
                           {[1, 2, 3, 4, 5, 6, 12].map(num => (
-                            <option key={num} value={num} className="bg-gray-900 text-white">{num}x de {formatCurrency((descontoAplicado?valorComDesconto:valorOriginal) / num)}</option>
+                            <option key={num} value={num} className="bg-gray-900 text-white">{num}x de {formatCurrency((descontoAplicado ? valorComDesconto : valorOriginal) / num)}</option>
                           ))}
                         </select>
                       </div>

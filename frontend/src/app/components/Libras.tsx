@@ -1,46 +1,47 @@
 'use client';
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect } from 'react';
+
+import { useEffect, useCallback } from 'react';
 import Script from 'next/script';
 
 const Libras = () => {
-  useEffect(() => {
-    const initVLibras = () => {
-      const w = window as any;
-      if (w.VLibras && typeof w.VLibras.Widget === 'function') {
-        // Verificamos se o VLibras já injetou o conteúdo. 
-        // Se a div 'vw-plugin-wrapper' estiver vazia (só com a div top), inicializamos.
-        const wrapper = document.querySelector('[vw-plugin-wrapper]');
-        if (wrapper && wrapper.children.length <= 1) {
-          try {
-            new w.VLibras.Widget('https://vlibras.gov.br/app');
-          } catch (e) {
-            // Ignora erro se já estiver inicializado
-          }
+  const initVLibras = useCallback(() => {
+    const w = window as any;
+    if (w.VLibras && typeof w.VLibras.Widget === 'function') {
+      const wrapper = document.querySelector('[vw-plugin-wrapper]');
+
+      // VLibras injeta um iframe quando funciona. Se não houver iframe, tentamos inicializar.
+      const hasIframe = wrapper?.querySelector('iframe');
+
+      if (wrapper && !hasIframe) {
+        try {
+          console.log("Tentando inicializar VLibras...");
+          new w.VLibras.Widget('https://vlibras.gov.br/app');
+        } catch (e) {
+          console.error("Erro ao inicializar VLibras:", e);
         }
       }
-    };
-
-    // Fica checando a cada 1 segundo se o bonequinho está lá. 
-    // Se sumir (no F5 ou troca de página), ele coloca de novo.
-    const interval = setInterval(initVLibras, 1500);
-
-    return () => clearInterval(interval);
+    }
   }, []);
+
+  useEffect(() => {
+    // Tenta inicializar IMEDIATAMENTE se o script já estiver no window
+    const timer = setTimeout(initVLibras, 500);
+
+    // Intervalo de verificação para garantir que o widget permaneça ativo em navegações SPA
+    const interval = setInterval(initVLibras, 3000);
+
+    return () => {
+      clearTimeout(timer);
+      clearInterval(interval);
+    };
+  }, [initVLibras]);
 
   return (
     <>
       <Script
         src="https://vlibras.gov.br/app/vlibras-plugin.js"
-        strategy="afterInteractive"
-        onLoad={() => {
-          const w = window as any;
-          if (w.VLibras && typeof w.VLibras.Widget === 'function') {
-            try {
-              new w.VLibras.Widget('https://vlibras.gov.br/app');
-            } catch (e) { }
-          }
-        }}
+        strategy="lazyOnload" // Mudança para lazyOnload para garantir que o DOM esteja pronto
+        onReady={initVLibras}
       />
       <div {...({ 'vw': 'true' } as any)} className="enabled">
         <div {...({ 'vw-access-button': 'true' } as any)} className="active" />
@@ -53,3 +54,5 @@ const Libras = () => {
 };
 
 export default Libras;
+
+

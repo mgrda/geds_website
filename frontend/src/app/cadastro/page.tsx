@@ -11,6 +11,7 @@ import {
   FiAlertCircle,
 } from "react-icons/fi";
 import SquareReveal from "../components/SquareReveal";
+import { supabase } from "@/lib/supabase";
 
 export default function Cadastro() {
   const [form, setForm] = useState({
@@ -55,32 +56,36 @@ export default function Cadastro() {
     setErrors({});
 
     try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          password: form.password,
-        }),
+      // 1. Criar usuário no Supabase Auth
+      const { data: authData, error: signUpError } = await supabase.auth.signUp({
+        email: form.email,
+        password: form.password,
       });
 
-      const data = await response.json();
+      if (signUpError) throw signUpError;
 
-      if (!response.ok) {
-        throw new Error(data.message || "Erro ao cadastrar");
+      if (authData.user) {
+        // 2. Inserir dados complementares na tabela 'usuarios'
+        const { error: dbError } = await supabase
+          .from('usuarios')
+          .insert([
+            {
+              id: authData.user.id,
+              nome: form.name,
+              email: form.email,
+              cargo: 'Usuário'
+            }
+          ]);
+
+        if (dbError) throw dbError;
       }
 
       setSuccess(true);
       setForm({ name: "", email: "", password: "", confirmPassword: "" });
-    } catch (error) {
+    } catch (error: any) {
+      console.error("Erro no cadastro:", error.message);
       setErrors({
-        form:
-          error instanceof Error
-            ? error.message
-            : "Erro ao cadastrar. Tente novamente.",
+        form: error.message || "Erro ao cadastrar. Tente novamente.",
       });
     } finally {
       setLoading(false);

@@ -1,80 +1,81 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { FiCheck, FiZap, FiBriefcase, FiUsers, FiStar, FiClock, FiShield, FiGlobe, FiLayers } from 'react-icons/fi';
+import { supabase } from '@/lib/supabase';
+
+interface PlanFeature {
+  text: string;
+  icon: React.JSX.Element;
+}
+
+interface Plan {
+  id: number;
+  name: string;
+  price: string;
+  period: string;
+  description: string;
+  features: PlanFeature[];
+  cta: string;
+  ctaLink: string;
+  popular: boolean;
+}
 
 const PricingSection = () => {
   const [annualBilling, setAnnualBilling] = useState(false);
   const [hoveredPlan, setHoveredPlan] = useState<string | null>(null);
+  const [plansList, setPlansList] = useState<Plan[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const plans = {
-    free: {
-      name: "Gratuito",
-      price: annualBilling ? "R$0" : "R$0",
-      period: annualBilling ? "/ano" : "/mês",
-      description: "Ideal para experimentar e aprender os recursos básicos.",
-      features: [
-        { text: "Acesso ao chat básico", icon: <FiCheck className="text-green-400" /> },
-        { text: "50 interações por mês", icon: <FiClock className="text-blue-400" /> },
-        { text: "Suporte por e-mail", icon: <FiUsers className="text-cyan-400" /> },
-        { text: "Acesso a modelos básicos", icon: <FiLayers className="text-yellow-400" /> }
-      ],
-      cta: "Começar agora",
-      ctaLink: "/pagamento?plan=Gratuito&price=0",
-      popular: false
-    },
-    premium: {
-      name: "Premium",
-      price: annualBilling ? "R$499,99" : "R$49,99",
-      period: annualBilling ? "/ano" : "/mês",
-      description: "Para usuários regulares e pequenas equipes que precisam de mais recursos.",
-      features: [
-        { text: "Acesso completo ao chat", icon: <FiCheck className="text-green-400" /> },
-        { text: "2.000 interações por mês", icon: <FiClock className="text-blue-400" /> },
-        { text: "Respostas 2x mais rápidas", icon: <FiZap className="text-red-400" /> },
-        { text: "Suporte prioritário", icon: <FiStar className="text-yellow-400" /> },
-        { text: "Acesso a modelos avançados", icon: <FiLayers className="text-yellow-400" /> }
-      ],
-      cta: "Teste grátis por 7 dias",
-      ctaLink: `/pagamento?plan=Premium&price=${annualBilling ? "499.99" : "49.99"}`,
-      popular: true
-    },
-    advanced: {
-      name: "Avançado",
-      price: annualBilling ? "R$949,99" : "R$99,99",
-      period: annualBilling ? "/ano" : "/mês",
-      description: "Para profissionais que exigem alto desempenho e recursos avançados.",
-      features: [
-        { text: "Modelos de última geração", icon: <FiCheck className="text-green-400" /> },
-        { text: "10.000 interações por mês", icon: <FiClock className="text-blue-400" /> },
-        { text: "Integrações com APIs", icon: <FiGlobe className="text-indigo-400" /> },
-        { text: "Suporte via chat 24/5", icon: <FiUsers className="text-cyan-400" /> },
-        { text: "Prioridade na fila", icon: <FiStar className="text-yellow-400" /> },
-        { text: "Segurança avançada", icon: <FiShield className="text-emerald-400" /> }
-      ],
-      cta: "Teste grátis por 7 dias",
-      ctaLink: `/pagamento?plan=Advanced&price=${annualBilling ? "949.99" : "99.99"}`,
-      popular: false
-    },
-    enterprise: {
-      name: "Empresarial",
-      price: "Sob consulta",
-      period: "",
-      description: "Soluções personalizadas para empresas com necessidades específicas.",
-      features: [
-        { text: "Suporte dedicado 24/7", icon: <FiUsers className="text-cyan-400" /> },
-        { text: "Consultoria personalizada", icon: <FiBriefcase className="text-blue-400" /> },
-        { text: "Integração total com sistemas", icon: <FiGlobe className="text-indigo-400" /> },
-        { text: "Treinamento para equipes", icon: <FiStar className="text-yellow-400" /> },
-        { text: "SLA garantido", icon: <FiShield className="text-emerald-400" /> },
-        { text: "Modelos customizados", icon: <FiLayers className="text-yellow-400" /> }
-      ],
-      cta: "Fale com nosso time",
-      ctaLink: "/contatos",
-      popular: false
-    }
+  const getIconForFeature = (text: string) => {
+    if (text.includes('chat') || text.includes('interações')) return <FiClock className="text-blue-400" />;
+    if (text.includes('Suporte')) return <FiUsers className="text-cyan-400" />;
+    if (text.includes('Modelos') || text.includes('última geração')) return <FiLayers className="text-yellow-400" />;
+    if (text.includes('API')) return <FiGlobe className="text-indigo-400" />;
+    if (text.includes('rápida') || text.includes('desempenho')) return <FiZap className="text-red-400" />;
+    if (text.includes('SLA') || text.includes('Segurança')) return <FiShield className="text-emerald-400" />;
+    return <FiCheck className="text-green-400" />;
   };
+
+  useEffect(() => {
+    const fetchPlans = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('planos')
+          .select('*')
+          .order('id', { ascending: true });
+
+        if (error) throw error;
+
+        if (data) {
+          const mappedPlans: Plan[] = data.map(p => ({
+            id: p.id,
+            name: p.nome,
+            price: annualBilling && p.preco_anual > 0
+              ? `R$${p.preco_anual.toString().replace('.', ',')}`
+              : p.preco_mensal > 0 ? `R$${p.preco_mensal.toString().replace('.', ',')}` : "Grátis",
+            period: p.preco_mensal > 0 ? (annualBilling ? "/ano" : "/mês") : "",
+            description: p.descricao,
+            features: (p.beneficios || []).map((b: string) => ({
+              text: b,
+              icon: getIconForFeature(b)
+            })),
+            cta: p.nome === 'Empresarial' ? "Fale com nosso time" : (p.nome === 'Gratuito' ? "Começar agora" : "Teste grátis por 7 dias"),
+            ctaLink: p.nome === 'Empresarial' ? "/contatos" : `/pagamento?plan=${p.nome}&price=${annualBilling ? p.preco_anual : p.preco_mensal}`,
+            popular: p.nome === 'Premium'
+          }));
+          setPlansList(mappedPlans);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar planos:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPlans();
+  }, [annualBilling]);
 
 
   return (
@@ -119,62 +120,69 @@ const PricingSection = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {Object.entries(plans).map(([key, plan]) => (
-            <div
-              key={key}
-              onMouseEnter={() => setHoveredPlan(key)}
-              onMouseLeave={() => setHoveredPlan(null)}
-              className={`relative flex flex-col p-6 rounded-2xl border transition-all duration-500 group ${plan.popular
-                ? 'bg-gradient-to-b from-cyan/10 to-black/40 border-cyan/50 hover:border-cyan shadow-[0_0_30px_-10px_rgba(0,219,255,0.3)]'
-                : 'bg-white/5 border-white/10 hover:border-white/20 hover:bg-white/10'
-                } ${hoveredPlan === key ? '-translate-y-2' : ''}`}
-            >
-              {plan.popular && (
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-cyan to-cyan-600 text-black text-xs font-bold px-4 py-1 rounded-full shadow-lg border border-cyan/30">
-                  Mais Popular
+          {loading ? (
+            <div className="col-span-full border border-white/10 bg-white/5 rounded-2xl p-20 text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan mx-auto mb-4"></div>
+              <p className="text-gray-400">Carregando planos dinâmicos...</p>
+            </div>
+          ) : (
+            plansList.map((plan) => (
+              <div
+                key={plan.id}
+                onMouseEnter={() => setHoveredPlan(plan.name)}
+                onMouseLeave={() => setHoveredPlan(null)}
+                className={`relative flex flex-col p-6 rounded-2xl border transition-all duration-500 group ${plan.popular
+                  ? 'bg-gradient-to-b from-cyan/10 to-black/40 border-cyan/50 hover:border-cyan shadow-[0_0_30px_-10px_rgba(0,219,255,0.3)]'
+                  : 'bg-white/5 border-white/10 hover:border-white/20 hover:bg-white/10'
+                  } ${hoveredPlan === plan.name ? '-translate-y-2' : ''}`}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-cyan to-cyan-600 text-black text-xs font-bold px-4 py-1 rounded-full shadow-lg border border-cyan/30">
+                    Mais Popular
+                  </div>
+                )}
+
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold text-white mb-2">{plan.name}</h3>
+                  <p className="text-sm text-gray-400 min-h-[40px]">{plan.description}</p>
                 </div>
-              )}
 
-              <div className="mb-6">
-                <h3 className="text-xl font-bold text-white mb-2">{plan.name}</h3>
-                <p className="text-sm text-gray-400 min-h-[40px]">{plan.description}</p>
-              </div>
-
-              <div className="mb-8">
-                <div className="flex items-baseline">
-                  <span className="text-4xl font-extrabold text-white tracking-tight">{plan.price}</span>
-                  {plan.period && (
-                    <span className="ml-1 text-sm font-medium text-gray-500">{plan.period}</span>
+                <div className="mb-8">
+                  <div className="flex items-baseline">
+                    <span className="text-4xl font-extrabold text-white tracking-tight">{plan.price}</span>
+                    {plan.period && (
+                      <span className="ml-1 text-sm font-medium text-gray-500">{plan.period}</span>
+                    )}
+                  </div>
+                  {annualBilling && plan.name !== 'Gratuito' && plan.name !== 'Empresarial' && (
+                    <span className="text-xs font-semibold text-green-400 block mt-1">
+                      Economize 15%
+                    </span>
                   )}
                 </div>
-                {annualBilling && key !== 'free' && key !== 'enterprise' && (
-                  <span className="text-xs font-semibold text-green-400 block mt-1">
-                    Economize 15%
-                  </span>
-                )}
+
+                <ul className="space-y-4 mb-8 flex-1">
+                  {plan.features.map((feature, index) => (
+                    <li key={index} className="flex items-start">
+                      <span className="mr-3 mt-0.5 flex-shrink-0">{feature.icon}</span>
+                      <span className="text-sm text-gray-300 group-hover:text-gray-200 transition-colors">{feature.text}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <Link href={plan.ctaLink} className="mt-auto">
+                  <button
+                    className={`w-full py-3.5 px-4 rounded-xl text-sm font-semibold transition-all duration-300 transform group-hover:scale-[1.02] active:scale-[0.98] ${plan.popular
+                      ? 'bg-cyan hover:bg-cyan-600 text-black shadow-lg shadow-cyan/25'
+                      : 'bg-white/10 hover:bg-white/20 text-white border border-white/10'
+                      }`}
+                  >
+                    {plan.cta}
+                  </button>
+                </Link>
               </div>
-
-              <ul className="space-y-4 mb-8 flex-1">
-                {plan.features.map((feature, index) => (
-                  <li key={index} className="flex items-start">
-                    <span className="mr-3 mt-0.5 flex-shrink-0">{feature.icon}</span>
-                    <span className="text-sm text-gray-300 group-hover:text-gray-200 transition-colors">{feature.text}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <Link href={plan.ctaLink} className="mt-auto">
-                <button
-                  className={`w-full py-3.5 px-4 rounded-xl text-sm font-semibold transition-all duration-300 transform group-hover:scale-[1.02] active:scale-[0.98] ${plan.popular
-                    ? 'bg-cyan hover:bg-cyan-600 text-black shadow-lg shadow-cyan/25'
-                    : 'bg-white/10 hover:bg-white/20 text-white border border-white/10'
-                    }`}
-                >
-                  {plan.cta}
-                </button>
-              </Link>
-            </div>
-          ))}
+            ))
+          )}
         </div>
 
         {/* Comparação de planos */}

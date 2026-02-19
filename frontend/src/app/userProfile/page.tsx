@@ -4,22 +4,95 @@ import { FiEdit, FiAward, FiBriefcase, FiCode, FiMail } from 'react-icons/fi';
 import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
 import Image from 'next/image';
 import SquareReveal from '../components/SquareReveal';
+import { supabase } from '@/lib/supabase';
+import { useEffect, useState } from 'react';
+
+interface UserData {
+  name: string;
+  role: string;
+  avatar: string;
+  bio: string;
+  email: string;
+  skills: string[];
+  stats: {
+    projects: number;
+    experience: number;
+    clients: number;
+  };
+  socials: {
+    github?: string;
+    linkedin?: string;
+    twitter?: string;
+  }
+}
 
 const UserProfile = () => {
-  // Dados do usuário - podem vir de props ou API
-  const user = {
-    name: "Carlos Silva",
-    role: "Desenvolvedor Full Stack",
-    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-    bio: "Especialista em React, Node.js e soluções escaláveis. Apaixonado por criar experiências digitais excepcionais.",
-    email: "carlos.silva@gedsinovacao.com",
-    skills: ["React", "TypeScript", "Node.js", "UI/UX", "AWS"],
-    stats: {
-      projects: 24,
-      experience: 5, // anos
-      clients: 18
-    }
-  };
+  const [user, setUser] = useState<UserData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        // Buscando o usuário administrador como exemplo
+        const { data, error } = await supabase
+          .from('usuarios')
+          .select('*')
+          .eq('email', 'edmilson@gedsinovacao.com')
+          .single();
+
+        if (error) throw error;
+
+        if (data) {
+          // Buscando total de projetos para o usuário
+          const { count: projectCount } = await supabase
+            .from('projetos')
+            .select('*', { count: 'exact', head: true })
+            .eq('proprietario_id', data.id);
+
+          setUser({
+            name: data.nome,
+            role: data.cargo,
+            avatar: data.url_avatar || "https://randomuser.me/api/portraits/men/32.jpg",
+            bio: data.biografia,
+            email: data.email,
+            skills: data.habilidades || [],
+            stats: {
+              projects: projectCount || 0,
+              experience: data.experiencia_anos || 0,
+              clients: data.total_clientes || 0
+            },
+            socials: {
+              github: data.url_github,
+              linkedin: data.url_linkedin,
+              twitter: data.url_twitter
+            }
+          });
+        }
+      } catch (error) {
+        console.error('Erro ao buscar perfil:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-cyan-500"></div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black text-white">
+        <p>Usuário não encontrado.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-4xl mx-auto p-6">
@@ -111,13 +184,13 @@ const UserProfile = () => {
                     <FiMail className="group-hover:text-cyan-400" /> <span className="truncate">{user.email}</span>
                   </a>
                   <div className="flex justify-around pt-2 border-t border-white/10">
-                    <a href="#" className="p-2 text-gray-400 hover:text-blue-500 transition hover:bg-white/5 rounded-lg">
+                    <a href={user.socials.linkedin || "#"} target="_blank" rel="noopener noreferrer" className="p-2 text-gray-400 hover:text-blue-500 transition hover:bg-white/5 rounded-lg">
                       <FaLinkedin className="text-2xl" />
                     </a>
-                    <a href="#" className="p-2 text-gray-400 hover:text-white transition hover:bg-white/5 rounded-lg">
+                    <a href={user.socials.github || "#"} target="_blank" rel="noopener noreferrer" className="p-2 text-gray-400 hover:text-white transition hover:bg-white/5 rounded-lg">
                       <FaGithub className="text-2xl" />
                     </a>
-                    <a href="#" className="p-2 text-gray-400 hover:text-cyan-400 transition hover:bg-white/5 rounded-lg">
+                    <a href={user.socials.twitter || "#"} target="_blank" rel="noopener noreferrer" className="p-2 text-gray-400 hover:text-cyan-400 transition hover:bg-white/5 rounded-lg">
                       <FaTwitter className="text-2xl" />
                     </a>
                   </div>

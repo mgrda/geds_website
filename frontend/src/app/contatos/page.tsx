@@ -2,22 +2,47 @@
 
 import { FaInstagram, FaGithub, FaLinkedin, FaPaperPlane, FaEnvelope, FaMapMarkerAlt, FaWhatsapp, FaGlobe } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import { useForm } from 'react-hook-form'; // Re-validated import
+import { useForm } from 'react-hook-form';
 import SquareReveal from '../components/SquareReveal';
+import { supabase } from '@/lib/supabase';
+import { useState } from 'react';
 
 type FormData = {
   name: string;
   email: string;
+  subject?: string;
   message: string;
 };
 
 export default function Contact() {
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
-    alert(`Obrigado pela mensagem, ${data.name}! Entraremos em contato em breve.`);
-    reset();
+  const onSubmit = async (data: FormData) => {
+    setIsSubmitting(true);
+    try {
+      const { error } = await supabase
+        .from('contatos')
+        .insert([
+          {
+            nome: data.name,
+            email: data.email,
+            assunto: data.subject || 'Sem assunto',
+            mensagem: data.message,
+            status: 'nao_lido'
+          }
+        ]);
+
+      if (error) throw error;
+
+      alert(`Obrigado pela mensagem, ${data.name}! Entraremos em contato em breve.`);
+      reset();
+    } catch (error: any) {
+      console.error('Erro ao enviar mensagem:', error.message);
+      alert('Ocorreu um erro ao enviar sua mensagem. Por favor, tente novamente mais tarde.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -174,6 +199,7 @@ export default function Contact() {
                       <input
                         type="text"
                         id="subject"
+                        {...register('subject')}
                         className="w-full px-4 py-3.5 bg-black/40 border border-white/10 rounded-xl text-white placeholder-gray-600 focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all duration-300"
                         placeholder="Interesse em desenvolvimento web..."
                       />
@@ -193,11 +219,18 @@ export default function Contact() {
 
                     <button
                       type="submit"
-                      className="w-full group relative px-8 py-4 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-xl shadow-[0_0_20px_rgba(0,219,255,0.4)] hover:shadow-[0_0_30px_rgba(0,219,255,0.6)] transition-all duration-300 overflow-hidden"
+                      disabled={isSubmitting}
+                      className={`w-full group relative px-8 py-4 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-xl shadow-[0_0_20px_rgba(0,219,255,0.4)] hover:shadow-[0_0_30px_rgba(0,219,255,0.6)] transition-all duration-300 overflow-hidden ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                     >
                       <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:animate-shine" />
                       <span className="relative z-10 flex items-center justify-center gap-2">
-                        <FaPaperPlane /> Enviar Agora
+                        {isSubmitting ? (
+                          <>Enviando...</>
+                        ) : (
+                          <>
+                            <FaPaperPlane /> Enviar Agora
+                          </>
+                        )}
                       </span>
                     </button>
 
