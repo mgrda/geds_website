@@ -30,17 +30,24 @@ export default function PortfoliosPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const client = supabase as any;
+        if (!client) {
+          console.warn('Supabase not configured, skipping fetchData in Portfolios');
+          setLoading(false);
+          return;
+        }
+
         // Buscar todos os usuários
-        const { data: users, error: userError } = await supabase
+        const { data: users, error: userError } = await client
           .from('usuarios')
           .select('*');
 
         if (userError) throw userError;
 
         if (users) {
-          const colabs: Collaborator[] = await Promise.all(users.map(async (user) => {
+          const colabs: Collaborator[] = await Promise.all(users.map(async (user: any) => {
             // Buscar projetos de cada usuário
-            const { data: projects, error: projectError } = await supabase
+            const { data: projects, error: projectError } = await client
               .from('projetos')
               .select('*')
               .eq('proprietario_id', user.id);
@@ -53,7 +60,7 @@ export default function PortfoliosPage() {
               bio: user.biografia,
               github: user.url_github,
               avatar: user.url_avatar || "/eusinho.jpg",
-              projects: (projects || []).map(p => ({
+              projects: (projects || []).map((p: any) => ({
                 title: p.titulo,
                 link: p.url_repositorio || p.url_deploy || "#",
                 description: p.descricao,
@@ -64,7 +71,7 @@ export default function PortfoliosPage() {
 
           setCollaborators(colabs);
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error('Erro ao buscar portfolios:', error);
       } finally {
         setLoading(false);

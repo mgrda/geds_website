@@ -68,8 +68,15 @@ export default function Cadastro() {
     setGlobalError("");
 
     try {
+      const client = supabase as any;
+      if (!client) {
+        setGlobalError("Conexão com o banco de dados não configurada.");
+        setLoading(false);
+        return;
+      }
+
       // 1. Criar usuário no Supabase Auth
-      const { data: authData, error: signUpError } = await supabase.auth.signUp({
+      const { data: authData, error: signUpError } = await client.auth.signUp({
         email: values.email,
         password: values.password,
       });
@@ -78,7 +85,7 @@ export default function Cadastro() {
 
       if (authData.user) {
         // 2. Inserir dados complementares na tabela 'usuarios'
-        const { error: dbError } = await supabase.from("usuarios").insert([
+        const { error: dbError } = await client.from("usuarios").insert([
           {
             id: authData.user.id,
             nome: values.name,
@@ -92,9 +99,9 @@ export default function Cadastro() {
 
       setSuccess(true);
       form.reset();
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : "Erro ao cadastrar. Tente novamente.";
-      console.error("Erro no cadastro:", message);
+    } catch (error: any) {
+      console.error("Erro no cadastro:", error);
+      const message = error?.message || "Erro ao cadastrar. Tente novamente.";
       setGlobalError(message);
     } finally {
       setLoading(false);

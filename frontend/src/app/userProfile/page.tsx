@@ -33,8 +33,15 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        const client = supabase as any;
+        if (!client) {
+          console.warn('Supabase not configured, skipping fetchUser');
+          setLoading(false);
+          return;
+        }
+
         // Buscando o usuário administrador como exemplo
-        const { data, error } = await supabase
+        const { data, error } = await client
           .from('usuarios')
           .select('*')
           .eq('email', 'edmilson@gedsinovacao.com')
@@ -44,7 +51,7 @@ const UserProfile = () => {
 
         if (data) {
           // Buscando total de projetos para o usuário
-          const { count: projectCount } = await supabase
+          const { count: projectCount } = await client
             .from('projetos')
             .select('*', { count: 'exact', head: true })
             .eq('proprietario_id', data.id);
@@ -68,7 +75,7 @@ const UserProfile = () => {
             }
           });
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error('Erro ao buscar perfil:', error);
       } finally {
         setLoading(false);

@@ -175,19 +175,25 @@ const PaymentContent = () => {
     setPagamentoFinalizado(true);
 
     try {
-      const { data: userData } = await supabase
+      const client = supabase as any;
+      if (!client) {
+        console.warn('Supabase not configured, skipping payment registration');
+        return;
+      }
+
+      const { data: userData } = await client
         .from('usuarios')
         .select('id')
         .eq('email', 'edmilson@gedsinovacao.com')
         .single();
 
-      const { data: planData } = await supabase
+      const { data: planData } = await client
         .from('planos')
         .select('id')
         .eq('nome', planName)
         .single();
 
-      const { error } = await supabase
+      const { error } = await client
         .from('pagamentos')
         .insert([
           {
@@ -204,7 +210,7 @@ const PaymentContent = () => {
         ]);
 
       if (error) throw error;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao registrar pagamento:', error);
     }
 

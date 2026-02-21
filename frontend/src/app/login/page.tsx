@@ -50,7 +50,14 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const { data, error: signInError } = await supabase.auth.signInWithPassword({
+      const client = supabase as any;
+      if (!client) {
+        setError("Serviço de autenticação indisponível.");
+        setLoading(false);
+        return;
+      }
+
+      const { data, error: signInError } = await client.auth.signInWithPassword({
         email: values.email,
         password: values.password,
       });
@@ -61,10 +68,9 @@ export default function LoginPage() {
         // You might want to handle 'stayLogged' here if you have specific logic for persistence
         router.push("/userProfile");
       }
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Erro no login";
-      console.error("Erro no login:", message);
-      setError("Credenciais inválidas ou erro no servidor");
+    } catch (err: any) {
+      console.error("Erro no login:", err);
+      setError(err?.message || "Credenciais inválidas ou erro no servidor");
     } finally {
       setLoading(false);
     }
