@@ -5,11 +5,12 @@ import { useRef, useState, useEffect } from 'react';
 interface SquareRevealProps {
     children: React.ReactNode;
     gridSize?: number;
+    threshold?: number;
 }
 
-export default function SquareReveal({ children, gridSize = 10 }: SquareRevealProps) {
+export default function SquareReveal({ children, gridSize = 10, threshold = 0.05 }: SquareRevealProps) {
     const containerRef = useRef(null);
-    const isInView = useInView(containerRef, { once: true, amount: 0.2 });
+    const isInView = useInView(containerRef, { once: true, amount: threshold });
     const [mounted, setMounted] = useState(false);
     const [shuffledSquares, setShuffledSquares] = useState<number[]>([]);
 
