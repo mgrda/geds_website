@@ -42,3 +42,6 @@ next-env.d.ts
 yarn.lock
 package-lock.json
 pnpm-lock.yaml
+
+# IDEs and editors
+.vscode
