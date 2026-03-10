@@ -28,6 +28,13 @@ const portfolioProjects: PortfolioProject[] = [
     link: "https://pi-borasio.vercel.app/",
     image: "/ora.png",
     techs: ["React", "Node.js", "Vite", "Tailwind CSS"]
+  },
+  {
+    title: "SmartUPA",
+    description: "O smartUPA é uma interface web desenvolvida para otimizar o agendamento de consultas e monitoramento de leitos nas Unidades de Pronto Atendimento (UPAs) de São Luís.",
+    link: "https://sistema-upa-mauve.vercel.app/",
+    image: "/smartUPA.png",
+    techs: ["JavaScript", "HTML", "CSS"]
   }
 ];
 
