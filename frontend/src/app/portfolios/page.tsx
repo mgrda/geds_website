@@ -17,16 +17,16 @@ interface PortfolioProject {
 const portfolioProjects: PortfolioProject[] = [
   {
     title: "Legacidos",
-    description: "Plataforma moderna para gestão com interface intuitiva e responsiva. Focada em alta performance, segurança e uma experiência de usuário imersiva para otimização de fluxos de trabalho.",
+    description: "Legacidos é um museu digital interativo que preserva a memória de objetos comuns do cotidiano que tiveram grande relevância cultural, social ou tecnológica, mas que perderam espaço com o avanço do tempo.",
     link: "https://legacidos.vercel.app/",
-    image: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg",
+    image: "/legacidos.png",
     techs: ["React", "Next.js", "Tailwind CSS", "TypeScript"]
   },
   {
     title: "Borasiô",
-    description: "Aplicação inovadora com design sofisticado e sistema projetado para escalar. Oferece uma experiência fluida, rápida e interativa para engajar usuários desde o primeiro acesso.",
+    description: "Um aplicativo de carona pensado para São Luís, mais humano, seguro e acessível. O Bora Siô foca nas necessidades locais, atendendo desde bairros centrais até a zona rural, valorizando a cultura maranhense e trazendo soluções inovadoras para a mobilidade da ilha.",
     link: "https://pi-borasio.vercel.app/",
-    image: "https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg",
+    image: "/ora.png",
     techs: ["React", "Node.js", "Vite", "Tailwind CSS"]
   }
 ];
@@ -75,7 +75,7 @@ export default function PortfoliosPage() {
                     src={project.image}
                     alt={project.title}
                     fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="object-cover object-top transition-transform duration-700 group-hover:scale-110"
                     sizes="(max-width: 1024px) 100vw, 50vw"
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500" />
