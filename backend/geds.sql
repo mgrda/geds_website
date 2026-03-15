@@ -131,3 +131,203 @@ FROM usuarios u, planos p WHERE u.email = 'edmilson@gedsinovacao.com' AND p.nome
 INSERT INTO contatos (nome, email, assunto, mensagem, status) VALUES 
 ('João Silva', 'joao.silva@empresa.com', 'Orçamento de Software', 'Gostaria de um orçamento para um sistema de gestão de estoque.', 'nao_lido'),
 ('Maria Souza', 'maria.souza@startup.io', 'Consultoria Cloud', 'Temos interesse em migrar nossa infraestrutura para AWS.', 'lido');
+ALTER TABLE public.contatos ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE public.servicos ENABLE ROW LEVEL SECURITY;
+
+CREATE TABLE lab_projetos (
+    id          SERIAL PRIMARY KEY,
+    titulo      VARCHAR(150) NOT NULL,
+    descricao   TEXT,
+
+    -- Categoria da seção exibida na página
+    -- Valores esperados: 'desenvolvimento', 'prototipos', 'inovacao'
+    categoria   VARCHAR(50) NOT NULL DEFAULT 'inovacao',
+
+    -- Status exibido no badge do card
+    -- Valores esperados: 'Em progresso', 'Teste', 'MVP', 'Alfa', 'Conceito', 'Ideia'
+    status      VARCHAR(30) NOT NULL DEFAULT 'Conceito',
+
+    -- Visibilidade pública na página
+    publicado   BOOLEAN DEFAULT TRUE,
+
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+INSERT INTO lab_projetos (titulo, categoria, status) VALUES
+-- Seção: Projetos em desenvolvimento
+('Sistema inteligente para pequenas empresas',  'desenvolvimento', 'Em progresso'),
+('Plataforma de ideias de startups',            'desenvolvimento', 'Em progresso'),
+
+-- Seção: Protótipos
+('Site teste interativo',   'prototipos', 'Teste'),
+('Aplicativo em fase inicial', 'prototipos', 'MVP'),
+('Sistema experimental',    'prototipos', 'Alfa'),
+
+-- Seção: Ideias de inovação
+('Aplicativo para conectar estudantes',         'inovacao', 'Conceito'),
+('Plataforma de colaboração tecnológica',       'inovacao', 'Ideia');
+
+
+-- -------------------------------------------------------
+-- 8. GREEN TECH (/green-tech)
+-- Página de impacto sustentável da GEDS com métricas
+-- exibidas em cards de dashboard (Papel, Automação, Cloud).
+-- -------------------------------------------------------
+CREATE TABLE metricas_green_tech (
+    id          SERIAL PRIMARY KEY,
+
+    -- Título do card exibido na página (ex: "Papel Economizado")
+    titulo      VARCHAR(100) NOT NULL,
+
+    -- Ícone Lucide associado ao card (ex: 'TreePine', 'Zap', 'Globe2')
+    nome_icone  VARCHAR(50),
+
+    -- Valor numérico da métrica (ex: 98 para "98%")
+    valor_numerico DECIMAL(10,2),
+
+    -- Unidade ou sufixo exibido (ex: '%', 'k docs', 'em alta')
+    unidade     VARCHAR(30),
+
+    -- Texto descritivo abaixo do valor
+    descricao   VARCHAR(255),
+
+    -- Ordenação dos cards na página
+    ordem       INTEGER DEFAULT 0,
+
+    data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Seeds: métricas iniciais da página Green Tech
+INSERT INTO metricas_green_tech (titulo, nome_icone, valor_numerico, unidade, descricao, ordem) VALUES
+('Papel Economizado',       'TreePine',  NULL,   'em alta', 'Documentos e fluxos migrados para o digital',               1),
+('Processos Automatizados', 'Zap',       98.00,  '%',       'Aumento do grau de eficiência operacional',                 2),
+('Soluções Digitais',       'Globe2',    100.00, '%',       'Focadas no uso inteligente de cloud computing',             3);
+
+
+-- -------------------------------------------------------
+-- 9. RECUPERAÇÃO DE SENHA (/esqueci-senha)
+-- A página envia um código de 6 dígitos por e-mail.
+-- Esta tabela armazena os tokens gerados para validação.
+-- -------------------------------------------------------
+CREATE TABLE tokens_recuperacao_senha (
+    id          UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+
+    -- Email do usuário que solicitou a recuperação
+    email       VARCHAR(100) NOT NULL,
+
+    -- Código de 6 dígitos enviado por e-mail
+    codigo      VARCHAR(6) NOT NULL,
+
+    -- Flag para saber se já foi utilizado (evita reutilização)
+    utilizado   BOOLEAN DEFAULT FALSE,
+
+    -- Expiração: o token expira após 15 minutos (controlado pela aplicação)
+    expira_em   TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP + INTERVAL '15 minutes'),
+
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Índice para acelerar a busca por email + código
+CREATE INDEX idx_tokens_email ON tokens_recuperacao_senha (email, utilizado);
+
+
+-- -------------------------------------------------------
+-- 10. BENEFÍCIOS DOS SERVIÇOS (/sobre-servicos)
+-- A página /sobre-servicos exibe para cada serviço uma
+-- lista de benefícios (bullets com FiCheckCircle).
+-- Em vez de um TEXT[], usa tabela separada para permitir
+-- fácil atualização via painel admin no futuro.
+-- -------------------------------------------------------
+CREATE TABLE beneficios_servico (
+    id          SERIAL PRIMARY KEY,
+
+    -- Referência ao serviço pai
+    servico_id  INTEGER REFERENCES servicos(id) ON DELETE CASCADE,
+
+    -- Texto do benefício exibido no bullet
+    descricao   VARCHAR(255) NOT NULL,
+
+    -- Ordem de exibição dos bullets
+    ordem       INTEGER DEFAULT 0
+);
+
+-- Também adicionar coluna "descricao_detalhada" na tabela servicos
+-- para a descrição longa exibida em /sobre-servicos (diferente do resumo)
+ALTER TABLE servicos ADD COLUMN IF NOT EXISTS descricao_detalhada TEXT;
+
+-- Seeds: benefícios de cada serviço (baseados no frontend /sobre-servicos)
+-- Desenvolvimento Sob Medida
+INSERT INTO beneficios_servico (servico_id, descricao, ordem)
+SELECT id, unnest(ARRAY[
+    'Arquitetura escalável e resiliente',
+    'Segurança by-design',
+    'Integração total com sistemas legados',
+    'Código auditável e de alta qualidade'
+]), generate_series(1, 4)
+FROM servicos WHERE titulo = 'Desenvolvimento Sob Medida';
+
+-- Cloud & Infraestrutura
+INSERT INTO beneficios_servico (servico_id, descricao, ordem)
+SELECT id, unnest(ARRAY[
+    'Redução de custos com servidores (FinOps)',
+    'Alta disponibilidade e redundância',
+    'Pipelines de CI/CD automatizados',
+    'Monitoramento e observabilidade 24/7'
+]), generate_series(1, 4)
+FROM servicos WHERE titulo = 'Cloud & Infraestrutura';
+
+-- Consultoria Estratégica
+INSERT INTO beneficios_servico (servico_id, descricao, ordem)
+SELECT id, unnest(ARRAY[
+    'Diagnóstico tecnológico profundo',
+    'Definição de stack e arquitetura',
+    'Otimização de processos de desenvolvimento',
+    'Mentoria técnica para times internos'
+]), generate_series(1, 4)
+FROM servicos WHERE titulo = 'Consultoria Estratégica';
+
+-- Data & Analytics
+INSERT INTO beneficios_servico (servico_id, descricao, ordem)
+SELECT id, unnest(ARRAY[
+    'Dashboards executivos (PowerBI, Metabase)',
+    'Engenharia de dados e ETL',
+    'Modelagem de dados para BI',
+    'Insights preditivos para o negócio'
+]), generate_series(1, 4)
+FROM servicos WHERE titulo = 'Data & Analytics';
+
+-- UX/UI Design
+INSERT INTO beneficios_servico (servico_id, descricao, ordem)
+SELECT id, unnest(ARRAY[
+    'Pesquisa e testes com usuários',
+    'Prototipagem de alta fidelidade',
+    'Design Systems completos',
+    'Foco em acessibilidade e conversão'
+]), generate_series(1, 4)
+FROM servicos WHERE titulo = 'UX/UI Design';
+
+-- Atualizar descrições detalhadas dos serviços (texto longo do /sobre-servicos)
+UPDATE servicos SET descricao_detalhada =
+    'Criamos software corporativo de alta complexidade desenhado especificamente para as regras de negócio da sua empresa. Utilizamos arquiteturas robustas (Clean Architecture, Hexagonal) para garantir que o sistema cresça junto com sua operação, sem perder performance ou segurança.'
+WHERE titulo = 'Desenvolvimento Sob Medida';
+
+UPDATE servicos SET descricao_detalhada =
+    'Modernize sua operação migrando para a nuvem. Projetamos e gerenciamos infraestruturas cloud-native (AWS, Azure, Google Cloud) que reduzem custos operacionais, aumentam a disponibilidade e eliminam dívidas técnicas de servidores on-premise.'
+WHERE titulo = 'Cloud & Infraestrutura';
+
+UPDATE servicos SET descricao_detalhada =
+    'Mais do que código, oferecemos visão de inteligência. Nossos especialistas atuam como parceiros estratégicos para transformar desafios de negócio em roadmaps técnicos viáveis, guiando sua empresa desde a validação de MVPs até a escala global.'
+WHERE titulo = 'Consultoria Estratégica';
+
+UPDATE servicos SET descricao_detalhada =
+    'Transforme dados brutos em vantagem competitiva. Construímos pipelines de dados e dashboards inteligentes que permitem aos gestores tomar decisões baseadas em fatos e métricas reais, com visualizações intuitivas e relatórios em tempo real.'
+WHERE titulo = 'Data & Analytics';
+
+UPDATE servicos SET descricao_detalhada =
+    'Interfaces que encantam e convertem. Nosso time de design cria experiências digitais centradas no usuário, aliando estética sofisticada (Cyber-Neo) com usabilidade funcional para maximizar a retenção e o engajamento.'
+WHERE titulo = 'UX/UI Design';
+
+ALTER TABLE "public"."tokens_recuperacao_senha" ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.metricas_green_tech ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "public"."lab_projetos" ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.beneficios_servico ENABLE ROW LEVEL SECURITY;
