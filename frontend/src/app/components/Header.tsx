@@ -36,7 +36,8 @@ const Header = () => {
             { name: "Sobre", href: "/#about" },
             { name: "Serviços", href: "/#servicos" },
             { name: "Processos", href: "/#processo" },
-            { name: "Portfólio", href: "/#portfolios" }
+            { name: "Portfólio", href: "/#portfolios" },
+            { name: "Contato", href: "/contatos" }
           ].map((item) => (
             <Link
               key={item.name}
@@ -104,7 +105,8 @@ const Header = () => {
                 { name: "Sobre", href: "/#about" },
                 { name: "Serviços", href: "/#servicos" },
                 { name: "Processos", href: "/#processo" },
-                { name: "Portfólio", href: "/#portfolios" }
+                { name: "Portfólio", href: "/#portfolios" },
+                { name: "Contato", href: "/contatos" }
               ].map((item) => (
                 <Link
                   key={item.name}
