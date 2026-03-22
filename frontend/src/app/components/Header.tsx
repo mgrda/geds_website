@@ -35,7 +35,9 @@ const Header = () => {
           {[
             { name: "Início", href: "/" },
             { name: "Sobre", href: "/#about" },
-            { name: "Serviços", href: "/servicos" }
+            { name: "Serviços", href: "/servicos" },
+            { name: "Network", href: "/geds-network" },
+            { name: "Games", href: "/geds-games" }
           ].map((item) => (
             <Link
               key={item.name}
@@ -87,6 +89,8 @@ const Header = () => {
                 { name: "Sobre", href: "/#about" },
                 { name: "Serviços", href: "/servicos" },
                 { name: "Segurança", href: "/geds-security" },
+                { name: "Network", href: "/geds-network" },
+                { name: "Games", href: "/geds-games" },
                 { name: "Acessibilidade", href: "/geds-accessibility" },
                 { name: "Processos", href: "/processo" },
                 { name: "Contato", href: "/contatos" }

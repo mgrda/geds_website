@@ -168,8 +168,8 @@ export default function Footer() {
             </h3>
             <div className="space-y-6">
               {[
-                { icon: <FiMail />, text: 'contato@gedsinovacao.com', label: 'E-mail' },
-                { icon: <FiPhone />, text: '+55 (98) 99999-9999', label: 'Telefone' },
+                { icon: <FiMail />, text: 'contato.gedsinovacao@gmail.com', label: 'E-mail' },
+                { icon: <FiPhone />, text: '+55 (98) 9999-9999', label: 'Telefone' },
                 { icon: <FiMapPin />, text: 'São Luís - MA, Brasil', label: 'Localização' },
               ].map((item, idx) => (
                 <motion.div

@@ -13,8 +13,10 @@ import {
   Search,
   Zap,
   RotateCcw,
+  Navigation2,
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import Image from "next/image";
+import { useState, useEffect, useCallback } from "react";
 
 interface AccessibilityItem {
   icon: React.ReactNode;
@@ -38,23 +40,26 @@ const AccessibilityMenu = () => {
   const [fontSize, setFontSize] = useState(100);
   const [isSirenActive, setIsSirenActive] = useState(false);
   const [isMenuFogo, setIsMenuFogo] = useState(false);
+  
+  // New States
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isReadingGuide, setIsReadingGuide] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isZoomActive, setIsZoomActive] = useState(false);
 
   // Apply filters and styles to root
   useEffect(() => {
     const root = document.documentElement;
     const body = document.body;
 
-    // Font Size
     root.style.fontSize = `${fontSize}%`;
 
-    // Dyslexia Font
     if (dyslexiaFont) {
        body.classList.add('dyslexia-mode');
     } else {
        body.classList.remove('dyslexia-mode');
     }
 
-    // Color Filters
     let filter = "none";
     if (grayscale) filter = "grayscale(100%)";
     else if (highContrast) filter = "contrast(180%) brightness(110%) saturate(50%)";
@@ -63,18 +68,55 @@ const AccessibilityMenu = () => {
     
     body.style.filter = filter;
 
-    // Menu Fogo Effect
     if (isMenuFogo) {
       body.classList.add('menu-fogo-active');
     } else {
       body.classList.remove('menu-fogo-active');
     }
 
-  }, [grayscale, highContrast, fontSize, dyslexiaFont, colorBlindMode, isMenuFogo]);
+    if (isZoomActive) {
+      body.style.cursor = 'zoom-in';
+    } else {
+      body.style.cursor = '';
+    }
+
+  }, [grayscale, highContrast, fontSize, dyslexiaFont, colorBlindMode, isMenuFogo, isZoomActive]);
+
+  // Mouse move for tracking
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  // IA Narrativa (Text to Speech)
+  const toggleNarrative = useCallback(() => {
+    if (isSpeaking) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+      return;
+    }
+
+    const mainContent = document.querySelector('main') || document.body;
+    const textToRead = mainContent.innerText.slice(0, 5000); // Limit to avoid browser hang
+    
+    if (textToRead) {
+      setIsSpeaking(true);
+      const utterance = new SpeechSynthesisUtterance(textToRead);
+      utterance.lang = 'pt-BR';
+      utterance.rate = 1.1;
+      utterance.onend = () => setIsSpeaking(false);
+      utterance.onerror = () => setIsSpeaking(false);
+      window.speechSynthesis.speak(utterance);
+    }
+  }, [isSpeaking]);
 
   // Alarme Sonoro
   useEffect(() => {
     if (isSirenActive) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const AudioContextClass = (window as any).AudioContext || (window as any).webkitAudioContext;
       if (!AudioContextClass) return;
       
@@ -118,6 +160,10 @@ const AccessibilityMenu = () => {
     setFontSize(100);
     setIsSirenActive(false);
     setIsMenuFogo(false);
+    setIsSpeaking(false);
+    setIsReadingGuide(false);
+    setIsZoomActive(false);
+    window.speechSynthesis.cancel();
   };
 
   const categories: AccessibilityCategory[] = [
@@ -131,19 +177,29 @@ const AccessibilityMenu = () => {
       ]
     },
     {
-      title: "Filtros Cromáticos",
+      title: "Filtros & Navegação",
       items: [
         { icon: <Eye className="w-5 h-5" />, label: "Escala Cinza", active: grayscale, action: () => { setGrayscale(!grayscale); setHighContrast(false); } },
+        { icon: <Navigation2 className="w-5 h-5" />, label: "Guia Leitura", active: isReadingGuide, action: () => setIsReadingGuide(!isReadingGuide) },
         { icon: <Zap className="w-5 h-5" />, label: "Deuteranopia", active: colorBlindMode === 'deuteranopia', action: () => setColorBlindMode(colorBlindMode === 'deuteranopia' ? null : 'deuteranopia') },
-        { icon: <Zap className="w-5 h-5" />, label: "Protanopia", active: colorBlindMode === 'protanopia', action: () => setColorBlindMode(colorBlindMode === 'protanopia' ? null : 'protanopia') },
         { icon: <RotateCcw className="w-4 h-4" />, label: "Resetar Tudo", action: resetAll },
       ]
     },
     {
-      title: "Recursos Especiais GEDS",
+      title: "IA & Funções Premium",
       items: [
-        { icon: <Sparkles className="w-5 h-5 text-cyan-400" />, label: "IA Narrativa", action: () => alert("🤖 IA GEDS: Funcionalidade em desenvolvimento. Em breve, narração semântica avançada.") },
-        { icon: <Search className="w-5 h-5" />, label: "Zoom Focus", action: () => alert("🔍 Lupa inteligente ativada na área de interação.") },
+        { 
+          icon: <Sparkles className={`w-5 h-5 ${isSpeaking ? "animate-spin text-cyan-400" : "text-cyan-400"}`} />, 
+          label: isSpeaking ? "Parar IA" : "IA Narrativa", 
+          action: toggleNarrative,
+          active: isSpeaking
+        },
+        { 
+          icon: <Search className="w-5 h-5" />, 
+          label: "Zoom Focus", 
+          action: () => setIsZoomActive(!isZoomActive),
+          active: isZoomActive
+        },
         { 
           icon: <Megaphone className={`w-5 h-5 ${isMenuFogo ? "animate-bounce text-white" : "text-orange-500"}`} />, 
           label: "MENU FOGO", 
@@ -180,7 +236,56 @@ const AccessibilityMenu = () => {
           from { border: 4px solid #ff4500; box-shadow: inset 0 0 40px rgba(255, 69, 0, 0.3); }
           to { border: 4px solid #ff0000; box-shadow: inset 0 0 80px rgba(255, 0, 0, 0.6); }
         }
+        .reading-guide {
+          position: fixed;
+          left: 0;
+          width: 100%;
+          height: 1.5rem;
+          background: rgba(0, 219, 255, 0.2);
+          border-top: 2px solid rgba(0, 219, 255, 0.5);
+          border-bottom: 2px solid rgba(0, 219, 255, 0.5);
+          pointer-events: none;
+          z-index: 9999;
+          transform: translateY(-50%);
+        }
+        .zoom-overlay {
+          position: fixed;
+          pointer-events: none;
+          z-index: 9998;
+          width: 200px;
+          height: 200px;
+          border-radius: 50%;
+          border: 4px solid white;
+          box-shadow: 0 0 50px rgba(0,0,0,0.5);
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(255,255,255,0.1);
+          backdrop-filter: blur(10px) scale(1.5);
+        }
       `}} />
+
+      {/* Reading Guide */}
+      {isReadingGuide && (
+        <div 
+          className="reading-guide" 
+          style={{ top: mousePos.y }}
+        />
+      )}
+
+      {/* Zoom Focus (Magnifier) */}
+      {isZoomActive && (
+        <div 
+          className="zoom-overlay" 
+          style={{ 
+            left: mousePos.x - 100, 
+            top: mousePos.y - 100 
+          }}
+        >
+          <div className="w-1 h-1 bg-cyan-400 rounded-full" />
+        </div>
+      )}
 
       {/* Floating Launcher */}
       <motion.button
@@ -192,7 +297,7 @@ const AccessibilityMenu = () => {
         className={`fixed left-8 bottom-8 z-50 w-16 h-16 rounded-[1.5rem] flex items-center justify-center shadow-2xl transition-all duration-500 backdrop-blur-xl border ${
           isMenuFogo 
             ? "bg-red-600 border-red-400 text-white animate-pulse" 
-            : "bg-white/10 border-white/20 text-white hover:border-cyan-400/50"
+            : "bg-cyan-500 hover:bg-cyan-400 border-cyan-500/50 text-black shadow-[0_10px_40px_rgba(6,182,212,0.3)] hover:shadow-[0_15px_50px_rgba(6,182,212,0.5)]"
         }`}
       >
         <Accessibility size={32} />
@@ -218,24 +323,35 @@ const AccessibilityMenu = () => {
               }`}
             >
               {/* Premium Header */}
-              <div className={`p-10 relative overflow-hidden flex justify-between items-center transition-colors ${
-                  isMenuFogo ? "bg-linear-to-br from-red-600 to-orange-700" : "bg-linear-to-br from-cyan-600 to-blue-700"
+              <div className={`p-8 relative overflow-hidden flex items-center gap-6 transition-colors ${
+                  isMenuFogo ? "bg-linear-to-br from-red-600 to-orange-700" : "bg-cyan-500"
               }`}>
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 blur-3xl -mr-10 -mt-10 rounded-full" />
-                <div className="relative z-10">
-                   <h2 className="text-xl font-black uppercase italic tracking-tighter text-white leading-none mb-2">
-                     {isMenuFogo ? "SISTEMA SOS GEDS" : "GEDS Access"}
+                
+                <div className={`relative z-10 w-16 h-16 rounded-full overflow-hidden border-2 shadow-xl shrink-0 ${isMenuFogo ? "border-white/20" : "border-black/20"}`}>
+                  <Image 
+                    src="/GEDS Accessibility.png" 
+                    alt="GEDS Accessibility" 
+                    fill 
+                    className="object-cover"
+                  />
+                </div>
+
+                <div className="relative z-10 flex-1">
+                   <h2 className={`text-lg font-black uppercase italic tracking-tighter leading-none mb-2 ${isMenuFogo ? "text-white" : "text-black"}`}>
+                     GEDS Accessibility
                    </h2>
                    <div className="flex items-center gap-2">
-                     <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                     <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/70">
-                       Tecnologia Humana
+                     <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${isMenuFogo ? "bg-red-200" : "bg-black"}`} />
+                     <p className={`text-[10px] font-black uppercase tracking-[0.3em] ${isMenuFogo ? "text-white/70" : "text-black/70"}`}>
+                       {isMenuFogo ? "SISTEMA SOS ATIVO" : "Engenharia de Inclusão"}
                      </p>
                    </div>
                 </div>
+                
                 <button 
                   onClick={() => setIsOpen(false)}
-                  className="w-12 h-12 bg-black/20 hover:bg-black/40 text-white rounded-2xl flex items-center justify-center transition-all relative z-10"
+                  className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all relative z-10 ${isMenuFogo ? "bg-black/20 hover:bg-black/40 text-white" : "bg-black/10 hover:bg-black/20 text-black"}`}
                 >
                   <X size={24} />
                 </button>
