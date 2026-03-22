@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 const fontMain = Outfit({
   subsets: ["latin"],
   display: "swap",
+  variable: "--font-outfit",
   weight: ["300", "400", "500", "700", "900"],
 });
 
@@ -35,7 +36,7 @@ export const viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={fontMain.className} suppressHydrationWarning>
+    <html lang="pt-BR" className={`${fontMain.variable} ${fontMain.className}`} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/GEDS Inovação.png" />
       </head>

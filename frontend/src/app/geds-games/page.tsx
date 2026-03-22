@@ -416,7 +416,7 @@ export default function GedsGames() {
                 Play · Create · Innovate
               </span>
 
-              <h1 className="text-5xl md:text-8xl font-black mb-8 leading-[1.05] uppercase italic tracking-tighter text-foreground">
+              <h1 className="text-4xl md:text-8xl font-black mb-8 leading-[1.05] uppercase italic tracking-tighter text-foreground">
                 GEDS <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-400 via-cyan-400 to-yellow-400">Games</span>
               </h1>
 
@@ -436,9 +436,9 @@ export default function GedsGames() {
               </div>
 
               {/* Player HUD */}
-              <div className="inline-flex flex-col sm:flex-row items-center gap-6 bg-foreground/[0.03] border border-foreground/10 rounded-[2rem] px-8 py-5">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-purple-500/20 border border-purple-500/30 rounded-2xl flex items-center justify-center">
+              <div className="inline-flex flex-col sm:flex-row items-center gap-6 bg-foreground/[0.03] border border-foreground/10 rounded-[2rem] px-8 py-5 w-full sm:w-auto">
+                <div className="flex items-center gap-4 w-full sm:w-auto">
+                  <div className="w-12 h-12 bg-purple-500/20 border border-purple-500/30 rounded-2xl flex items-center justify-center shrink-0">
                     <Crown className="w-6 h-6 text-yellow-400" />
                   </div>
                   <div className="text-left">
@@ -446,17 +446,17 @@ export default function GedsGames() {
                     <p className="text-2xl font-black text-foreground italic uppercase">{gs.level}</p>
                   </div>
                 </div>
-                <div className="text-left">
+                <div className="text-left w-full sm:w-auto">
                   <div className="flex justify-between mb-1">
                     <span className="text-[9px] font-black uppercase tracking-widest text-foreground/40">XP</span>
                     <span className="text-[9px] font-black text-purple-400">{gs.xpInLevel}/{gs.xpToNext}</span>
                   </div>
-                  <div className="w-40 h-2 bg-foreground/10 rounded-full overflow-hidden">
+                  <div className="w-full sm:w-40 h-2 bg-foreground/10 rounded-full overflow-hidden">
                     <motion.div className="h-full bg-linear-to-r from-purple-500 to-cyan-500 rounded-full"
                       animate={{ width: `${(gs.xpInLevel / gs.xpToNext) * 100}%` }} transition={{ duration: 0.5 }} />
                   </div>
                 </div>
-                <div className="flex gap-3 items-center">
+                <div className="flex gap-6 sm:gap-3 items-center w-full sm:w-auto justify-between sm:justify-start">
                   <div className="text-center">
                     <p className="text-lg font-black text-cyan-400">{gs.totalScore}</p>
                     <p className="text-[9px] font-black uppercase tracking-widest text-foreground/40">Pontos</p>

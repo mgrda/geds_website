@@ -426,7 +426,7 @@ export default function GedsNetwork() {
                 Infraestrutura & Conectividade
               </span>
 
-              <h1 className="text-5xl md:text-7xl font-black mb-8 leading-[1.05] uppercase italic tracking-tighter text-foreground">
+              <h1 className="text-4xl md:text-7xl font-black mb-8 leading-[1.05] uppercase italic tracking-tighter text-foreground">
                 Infraestrutura <br/>
                 <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 via-cyan-400 to-blue-500">
                   Inteligente
@@ -566,7 +566,7 @@ export default function GedsNetwork() {
           </motion.div>
 
           {/* Column Headers */}
-          <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div className="flex items-center gap-3 p-4 rounded-2xl bg-red-500/10 border border-red-500/20">
               <TrendingDown className="w-5 h-5 text-red-400" />
               <span className="text-red-400 font-black text-sm uppercase tracking-widest">Sem GEDS Network</span>
@@ -581,7 +581,7 @@ export default function GedsNetwork() {
             {beforeAfter.map((item, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
-                className="grid grid-cols-2 gap-4">
+                className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex items-center gap-3 p-5 rounded-2xl bg-red-500/5 border border-red-500/10">
                   <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
                   <span className="text-foreground/60 text-xs font-bold uppercase tracking-tight">{item.before}</span>

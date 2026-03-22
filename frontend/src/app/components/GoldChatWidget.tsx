@@ -272,7 +272,7 @@ export default function GoldChatWidget() {
             initial={{ opacity: 0, y: 10, scale: 0.8 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            className="absolute bottom-20 right-0 bg-black/40 backdrop-blur-xl text-cyan-400 text-[10px] sm:text-xs font-black px-5 py-2.5 rounded-2xl shadow-[0_0_20px_rgba(0,219,255,0.15)] border border-cyan-500/20 mb-2 whitespace-nowrap uppercase tracking-widest"
+            className="absolute bottom-20 right-0 bg-background/60 dark:bg-black/40 backdrop-blur-xl text-cyan-600 dark:text-cyan-400 text-[10px] sm:text-xs font-black px-5 py-2.5 rounded-2xl shadow-lg dark:shadow-[0_0_20px_rgba(0,219,255,0.15)] border border-cyan-500/20 mb-2 whitespace-nowrap uppercase tracking-widest"
           >
             Dúvidas? Fale comigo! <span className="animate-bounce inline-block ml-1">👇</span>
           </motion.div>
@@ -284,7 +284,7 @@ export default function GoldChatWidget() {
           whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(0,219,255,0.4)" }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setOpen(true)}
-          className="bg-black/80 backdrop-blur-md text-cyan-400 p-5 rounded-3xl shadow-[0_10px_30px_rgba(0,0,0,0.5),0_0_20px_rgba(0,219,255,0.2)] border border-cyan-500/30 transition-all duration-500 group relative overflow-hidden"
+          className="bg-background/80 dark:bg-black/80 backdrop-blur-md text-cyan-600 dark:text-cyan-400 p-5 rounded-3xl shadow-xl border border-cyan-500/30 transition-all duration-500 group relative overflow-hidden"
         >
           <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
           <MessageCircle className="w-8 h-8 relative z-10" />
@@ -294,7 +294,7 @@ export default function GoldChatWidget() {
           initial={{ opacity: 0, y: 50, scale: 0.9, transformOrigin: "bottom right" }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.95 }}
-          className="w-[320px] sm:w-[400px] h-[550px] bg-[#050505]/95 backdrop-blur-2xl rounded-[2.5rem] shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_40px_rgba(0,219,255,0.1)] border border-white/10 flex flex-col overflow-hidden relative"
+          className="w-[320px] sm:w-[400px] h-[550px] bg-background/95 dark:bg-[#050505]/95 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl border border-foreground/10 dark:border-white/10 flex flex-col overflow-hidden relative"
         >
           {/* Header */}
           <div className="p-6 flex justify-between items-center relative overflow-hidden">
@@ -310,14 +310,14 @@ export default function GoldChatWidget() {
                     className="object-cover"
                   />
                 </div>
-                <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-[3px] border-[#0a0a0a] shadow-lg">
+                <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-[3px] border-background dark:border-[#0a0a0a] shadow-lg">
                    <div className="w-full h-full bg-emerald-400 rounded-full animate-ping opacity-75" />
                 </div>
               </div>
               <div>
-                <h3 className="text-white font-black text-lg tracking-tight leading-none mb-1">Assistente virtual</h3>
-                <p className="text-cyan-400 text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 mt-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+                <h3 className="text-foreground dark:text-white font-black text-lg tracking-tight leading-none mb-1">Assistente virtual</h3>
+                <p className="text-cyan-600 dark:text-cyan-400 text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 mt-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-600 dark:bg-cyan-400" />
                   Online • Pronto para ajudar
                 </p>
               </div>
@@ -325,7 +325,7 @@ export default function GoldChatWidget() {
             
             <button
               onClick={() => setOpen(false)}
-              className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/40 hover:text-white transition-all duration-300"
+              className="w-10 h-10 rounded-xl bg-foreground/5 dark:bg-white/5 hover:bg-foreground/10 dark:hover:bg-white/10 flex items-center justify-center text-foreground/40 dark:text-white/40 hover:text-foreground dark:hover:text-white transition-all duration-300"
             >
               <X className="w-5 h-5" />
             </button>
@@ -342,8 +342,8 @@ export default function GoldChatWidget() {
               >
                 <div
                   className={`max-w-[85%] px-5 py-3 rounded-2xl text-sm leading-relaxed shadow-lg ${msg.from === "gold"
-                    ? "bg-white/5 text-gray-200 border border-white/10 rounded-tl-none"
-                    : "bg-cyan-500/20 text-cyan-50 border border-cyan-500/30 rounded-tr-none shadow-[0_0_20px_rgba(0,219,255,0.1)]"
+                    ? "bg-foreground/5 dark:bg-white/5 text-foreground/80 dark:text-gray-200 border border-foreground/10 dark:border-white/10 rounded-tl-none"
+                    : "bg-cyan-500/10 dark:bg-cyan-500/20 text-cyan-900 dark:text-cyan-50 border border-cyan-500/30 rounded-tr-none shadow-sm dark:shadow-[0_0_20px_rgba(0,219,255,0.1)]"
                     }`}
                 >
                   <p className="whitespace-pre-line font-medium">{msg.text}</p>
@@ -357,12 +357,12 @@ export default function GoldChatWidget() {
           </div>
 
           {/* Input Area */}
-          <div className="p-6 bg-[#0a0a0a]/50 border-t border-white/5 backdrop-blur-md">
-            <div className="flex items-center bg-white/5 rounded-2xl border border-white/10 p-1.5 focus-within:border-cyan-500/40 focus-within:bg-white/10 transition-all duration-300 shadow-inner">
+          <div className="p-6 bg-background/50 dark:bg-[#0a0a0a]/50 border-t border-foreground/5 dark:border-white/5 backdrop-blur-md">
+            <div className="flex items-center bg-foreground/5 dark:bg-white/5 rounded-2xl border border-foreground/10 dark:border-white/10 p-1.5 focus-within:border-cyan-500/40 focus-within:bg-foreground/10 dark:focus-within:bg-white/10 transition-all duration-300 shadow-inner">
               <input
                 type="text"
                 placeholder="Como posso ajudar?"
-                className="flex-1 bg-transparent border-none outline-none text-white text-base font-bold px-4 placeholder:text-white/40"
+                className="flex-1 bg-transparent border-none outline-none text-foreground dark:text-white text-base font-bold px-4 placeholder:text-foreground/40 dark:placeholder:text-white/40"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
